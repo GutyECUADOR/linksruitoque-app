@@ -25,7 +25,7 @@
                                 <div class="p-md-2 p-4">
 
                                     <!-- form -->
-                                    <form wire:submit.prevent="submit" class="row g-1">
+                                    <form wire:submit.prevent="submit_cosultaFacturas" class="row g-1">
                                         <div class="col-12 col-md-9">
                                             <!-- input -->
                                             <div class="input-group mb-2 mb-md-0 border-md-0 border rounded-pill">
@@ -53,7 +53,17 @@
                                         <div class="col-12 col-md-3 text-end d-grid">
                                             <!-- button -->
                                             <button type="submit"
-                                                class="btn btn-primary rounded-pill">Buscar</button>
+                                                wire:loading.attr="disabled"
+                                                class="btn btn-primary rounded-pill">
+                                                <span wire:loading.remove>
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                    Buscar
+                                                </span>
+                                                <span wire:loading>
+                                                    <i class="fa fa-cog fa-spin"></i>
+                                                    Procesando
+                                                </span>
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
@@ -67,6 +77,7 @@
         </div>
     </section>
 
+    @if($invoices)
     <section class="py-lg-5 pb-3">
         <!-- container -->
         <div class="container">
@@ -78,58 +89,73 @@
                         <!-- text -->
                         <span class="text-uppercase text-primary fw-semibold ls-md"></span>
                         <!-- heading -->
-                        <h2 class="h2 fw-bold mt-3">Lista de facturas pendientes.</h2>
-                        <h3 class="h3">Total: {{ $total }}</h3>
+                        <h2 class="h2 fw-bold mt-3">Lista de facturas pendientes</h2>
+                        <h3 class="h3">Total: $ {{ $total }}</h3>
+                        <button
+                            wire:click="submit_pagarFacturas()"
+                            wire:loading.attr="disabled"
+                            class="btn btn-outline-primary me-2 ">
+
+                            <span wire:loading.remove>
+                                <i class="fa fa-credit-card" aria-hidden="true"></i>
+                                Pagar facturas
+                            </span>
+                            <span wire:loading>
+                                <i class="fa fa-cog fa-spin"></i>
+                                Procesando
+                            </span>
+                        </button>
                     </div>
                     <!-- row -->
                     @foreach ($invoices as $index => $invoice)
-                        <div class="card card-bordered mb-4 card-hover cursor-pointer">
-                            <!-- card body -->
-                            <div class="card-body">
-                                <div>
-                                    <div class="d-md-flex">
-                                        <!-- text -->
-                                        <div class="ms-md-3 w-100 mt-3 mt-xl-1">
-                                            <div class="d-flex justify-content-between mb-5">
-                                                <div>
-                                                    <!-- heading -->
-                                                    <h3 class="mb-1 fs-4">
-                                                        <span class="text-inherit">Factura #:{{ $invoice["numeroFactura"] }}</span>
-                                                        <span class="badge {{ \Carbon\Carbon::parse($invoice['fechaLimitePago'])->isFuture() ? 'bg-success-soft' : 'bg-danger-soft' }} ms-2">
-                                                            Fecha limite: {{ $invoice['fechaLimitePago'] }}
-                                                        </span>
-                                                    </h3>
+                    <div class="card card-bordered mb-4 card-hover cursor-pointer">
+                        <!-- card body -->
+                        <div class="card-body">
+                            <div>
+                                <div class="d-md-flex">
+                                    <!-- text -->
+                                    <div class="ms-md-3 w-100 mt-3 mt-xl-1">
+                                        <div class="d-flex justify-content-between mb-5">
+                                            <div>
+                                                <!-- heading -->
+                                                <h3 class="mb-1 fs-4">
+                                                    <span class="text-inherit">Factura #:{{ $invoice["numeroFactura"] }}</span>
+                                                    <span class="badge {{ \Carbon\Carbon::parse($invoice['fechaLimitePago'])->isFuture() ? 'bg-success-soft' : 'bg-danger-soft' }} ms-2">
+                                                        Fecha limite: {{ $invoice['fechaLimitePago'] }}
+                                                    </span>
+                                                </h3>
 
-                                                    <div>
-                                                        <span>{{$invoice["referenciaPago"] }}</span>
-                                                        <span class="ms-0"> - {{ $invoice["periodoCancelar"] }}</span>
-                                                    </div>
-                                                    <h2>$ {{ $invoice["valor"] }}</h2>
-                                                </div>
                                                 <div>
-                                                    <div class="form-check">
-                                                        <label class="form-check-label">
-                                                            <input 
-                                                                class="form-check-input"
-                                                                wire:model="invoices.{{ $index }}.checked"
-                                                                wire:click="actualizaValorTotal()"
-                                                                type="checkbox">
-                                                        
-                                                            Pagar esta factura
-                                                        </label>
-                                                    </div>
+                                                    <span>{{$invoice["referenciaPago"] }}</span>
+                                                    <span class="ms-0"> - {{ $invoice["periodoCancelar"] }}</span>
+                                                </div>
+                                                <h2>$ {{ $invoice["valor"] }}</h2>
+                                            </div>
+                                            <div>
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input
+                                                            class="form-check-input"
+                                                            wire:model="invoices.{{ $index }}.checked"
+                                                            wire:click="actualizaValorTotal()"
+                                                            type="checkbox">
+
+                                                        Pagar esta factura
+                                                    </label>
                                                 </div>
                                             </div>
-
-
                                         </div>
+
+
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
                     @endforeach
                 </div>
             </div>
         </div>
     </section>
+    @endif
 </main>

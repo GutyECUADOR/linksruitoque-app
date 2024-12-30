@@ -17,7 +17,7 @@ class FormularioConsultaFacturas extends Component
         'cedula' => 'required|string|max:25'
     ];
 
-    public function submit()
+    public function submit_cosultaFacturas()
     {
         // Validaciones
 
@@ -35,16 +35,33 @@ class FormularioConsultaFacturas extends Component
 
         $this->invoices = $this->user->invoices->map(function ($invoice) {
             $invoiceClone = clone $invoice; 
-            $invoiceClone->checked = false; // Nueva propiedad reactiva
+            $invoiceClone->checked = true; // Nueva propiedad reactiva
             return $invoiceClone;
         })->toArray();
+
+        $this->actualizaValorTotal();
         
         //dd($this->invoices);
         // Restablecer el estado después de enviar
         $this->isSubmitting = false;
 
         // Opcionalmente, limpiar los campos
-        $this->reset('cedula');
+        //$this->reset('cedula');
+    }
+
+    public function submit_pagarFacturas()
+    {
+        // Validaciones
+        $this->isSubmitting = true;
+        
+        // Lógica del componente
+        
+        sleep(10);
+        
+        // Restablecer el estado después de enviar
+        $this->isSubmitting = false;
+
+      
     }
 
     public function actualizaValorTotal()
