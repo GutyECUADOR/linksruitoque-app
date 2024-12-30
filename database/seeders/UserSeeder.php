@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Cliente;
 use App\Models\Invoice;
 use App\Models\User;
 use Carbon\Carbon;
@@ -26,12 +27,31 @@ class UserSeeder extends Seeder
             ],
         );
 
+        $cliente = Cliente::create([
+            'tipoDocumentoIdentidad' => 'cedula',
+            'numeroDocumentoIdentidad' => '1600505505',
+            'nombre' => 'Gutiérrez R. José',
+            'telefonoContacto' => '+593999887766',
+            'email' => 'gutiecuador@gmail.com',
+            'direccionCorrespondencia' => 'Direccion de pruebas',
+        ]);
+
         Invoice::create([
-            'user_id' => $user->id,
+            'cliente_id' => $cliente->id,
             'numeroFactura' => '001',
             'referenciaPago' => 'pruebas',
             'valor' => 10,
             'valorVencido' => 12,
+            'periodoCancelar' => 'Del 20 de junio al 20 de agosto',
+            'fechaLimitePago' => Carbon::now()->format('Y-m-d')
+        ]);
+
+        Invoice::create([
+            'cliente_id' => $cliente->id,
+            'numeroFactura' => '002',
+            'referenciaPago' => 'pruebas',
+            'valor' => 20,
+            'valorVencido' => 22,
             'periodoCancelar' => 'Del 20 de junio al 20 de agosto',
             'fechaLimitePago' => Carbon::now()->format('Y-m-d')
         ]);
