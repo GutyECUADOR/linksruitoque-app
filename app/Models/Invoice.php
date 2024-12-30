@@ -13,8 +13,8 @@ class Invoice extends Model
         'user_id',
         'numeroFactura',
         'referenciaPago',
-        'pago',
-        'pagoVencido',
+        'valor',
+        'valorVencido',
         'periodoCancelar',
         'fechaLimitePago'
     ];

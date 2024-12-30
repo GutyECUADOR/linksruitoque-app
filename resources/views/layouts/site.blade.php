@@ -81,7 +81,7 @@
                                 <h4 class="dropdown-header">Servicios</h4>
                             </li>
                             <li>
-                                <a href="{{ route('invoices.index') }}"
+                                <a href="{{ route('pagos.index') }}"
                                     class="dropdown-item d-flex justify-content-between">
                                     Pagos de facturas online <span class="badge bg-primary ms-1">Nuevo</span>
                                 </a>
@@ -96,62 +96,8 @@
         </div>
     </nav>
 
-    <!-- section -->
-    <main>
-        <section class="py-lg-16 py-5">
-            <!-- container -->
-            <div class="container">
-                <!-- row -->
-                <div class="row align-items-center">
-                    <!-- col -->
-                    <div class="col-lg-6 mb-6 mb-lg-0">
-                        <div class="">
-                            <!-- heading -->
-                            <h5 class="text-dark mb-4"><i
-                                    class="fe fe-check icon-xxs icon-shape bg-light-success text-success rounded-circle me-2"></i>Most
-                                trusted education platform</h5>
-                            <!-- heading -->
-                            <h1 class="display-3 fw-bold mb-3">Grow your skills and advance career</h1>
-                            <!-- para -->
-                            <p class="pe-lg-10 mb-5">Start, switch, or advance your career with more than 5,000
-                                courses, Professional
-                                Certificates, and degrees from world-class universities and companies.</p>
-                            <!-- btn -->
-                            <a href="#" class="btn btn-primary">Join Free Now</a>
-                            <a href="https://www.youtube.com/watch?v=JRzWRZahOVU"
-                                class="popup-youtube fs-4 text-inherit ms-3"><img
-                                    src="../../assets/images/svg/play-btn.svg" alt="play" class="me-2">Watch
-                                Demo</a>
-
-
-                        </div>
-                    </div>
-                    <!-- col -->
-                    <div class="col-lg-6 d-flex justify-content-center">
-                        <!-- images -->
-                        <div class="position-relative">
-                            <img src="../../assets/images/background/acedamy-img/bg-thumb.svg" alt="img"
-                                class=" ">
-                            <img src="../../assets/images/background/acedamy-img/girl-image.png" alt="girl"
-                                class=" w-100 w-md-auto position-absolute end-0 bottom-0">
-                            <img src="../../assets/images/background/acedamy-img/frame-1.svg" alt="frame"
-                                class=" position-absolute top-0 ms-lg-n10 ms-n19">
-                            <img src="../../assets/images/background/acedamy-img/frame-2.svg" alt="frame"
-                                class=" position-absolute bottom-0 start-0 ms-lg-n14 ms-n6 mb-n7">
-                            <img src="../../assets/images/background/acedamy-img/target.svg" alt="target"
-                                class=" position-absolute bottom-0 mb-10 ms-n10 ms-lg-n1 ">
-                            <img src="../../assets/images/background/acedamy-img/sound.svg" alt="sound"
-                                class=" position-absolute top-0  start-0 mt-18 ms-lg-n19 ms-n8">
-                            <img src="../../assets/images/background/acedamy-img/trophy.svg" alt="trophy"
-                                class=" position-absolute top-0  start-0 ms-lg-n14 ms-n5">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </main>
+    <!-- main section -->
+    {{ $slot }}
 
     <!-- Scripts -->
     <!-- Libs JS -->

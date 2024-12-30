@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Invoice;
+use App\Models\Cliente;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -12,54 +13,19 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        //
+        return view('invoices.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function consultar(Request $request)
     {
-        //
+        $request->validate([
+            'cedula' => 'required|string|max:25'
+        ]);
+
+        $user = Cliente::where('numeroDocumentoIdentidad', $request->cedula)->first();
+        dd($user);
+        return view('invoices.index');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Invoice $invoice)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Invoice $invoice)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Invoice $invoice)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Invoice $invoice)
-    {
-        //
-    }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PagosController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +19,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
+Route::post('/invoices', [InvoiceController::class, 'consultar'])->name('invoices.consultar');
+Route::resource('/pagos', PagosController::class);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

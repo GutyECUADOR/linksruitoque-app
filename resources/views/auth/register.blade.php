@@ -23,18 +23,10 @@
 
                                 <!-- Username -->
                                 <div class="mb-3">
-                                    <label for="nickname_promoter" class="form-label">Código de Promotor/Patrocinador
+                                    <label for="name" class="form-label">Nombre
                                     </label>
-                                    <input type="text" id="nickname_promoter" class="form-control"
-                                        name="nickname_promoter" placeholder="XXXXX" required>
-                                </div>
-
-                                <!-- Nickname -->
-                                <div class="mb-3">
-                                    <label for="nickname" class="form-label">Crea un nickname único (Sin
-                                        espacios)</label>
-                                    <input type="nickname" name="nickname" value="{{ old('nickname') }}"
-                                        class="form-control" id="nickname" required autofocus>
+                                    <input type="text" id="name" class="form-control"
+                                        name="name" placeholder="XXXXX" required>
                                 </div>
 
                                 <!-- Email -->
@@ -42,13 +34,6 @@
                                     <label for="email" class="form-label">Correo electrónico</label>
                                     <input type="email" name="email" value="{{ old('email') }}"
                                         class="form-control" id="email" required>
-                                </div>
-
-                                <!-- Phone -->
-                                <div class="mb-3">
-                                    <label for="phone" class="form-label">Teléfono</label>
-                                    <input type="phone" name="phone" value="{{ old('phone') }}"
-                                        class="form-control" id="phone" required>
                                 </div>
 
                                 <!-- Password -->
