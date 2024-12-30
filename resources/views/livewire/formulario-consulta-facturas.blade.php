@@ -18,6 +18,8 @@
                         <!-- Validation Errors -->
                         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
+
+
                         <div class="mt-8">
                             <!-- card -->
                             <div class="bg-white rounded-md-pill shadow rounded-3 mb-4">
@@ -94,7 +96,8 @@
                         <button
                             wire:click="submit_pagarFacturas()"
                             wire:loading.attr="disabled"
-                            class="btn btn-outline-primary me-2 ">
+                            {{ !$invoices_checked->isEmpty() ? '' : 'disabled' }}
+                            class="btn btn-outline-primary me-2 mb-5">
 
                             <span wire:loading.remove>
                                 <i class="fa fa-credit-card" aria-hidden="true"></i>
@@ -105,6 +108,13 @@
                                 Procesando
                             </span>
                         </button>
+
+                        @if (session('error'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ session('error') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
                     </div>
                     <!-- row -->
                     @foreach ($invoices as $index => $invoice)
@@ -136,8 +146,8 @@
                                                     <label class="form-check-label">
                                                         <input
                                                             class="form-check-input"
-                                                            wire:model="invoices.{{ $index }}.checked"
                                                             wire:click="actualizaValorTotal()"
+                                                            wire:model="invoices.{{ $index }}.checked"
                                                             type="checkbox">
 
                                                         Pagar esta factura

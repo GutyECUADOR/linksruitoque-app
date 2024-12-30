@@ -4,13 +4,15 @@ namespace App\Livewire;
 
 use App\Models\Cliente;
 use Livewire\Component;
+use Illuminate\Validation\ValidationException;
 
 class FormularioConsultaFacturas extends Component
 {
     public $cedula;
     public $user;
-    public $invoices = []; // Arreglo de ítems con valores y estados de checkbox
-    public $total = 0; 
+    public $invoices = [];
+    public $invoices_checked = [];
+    public $total = 0;
     public $isSubmitting = false;
 
     protected $rules = [
@@ -19,49 +21,60 @@ class FormularioConsultaFacturas extends Component
 
     public function submit_cosultaFacturas()
     {
-        // Validaciones
+        try {
+            $this->isSubmitting = true;
+            $this->validate();
 
-        $this->isSubmitting = true;
-        $this->validate();
 
-        // Lógica del componente
-        $this->user = Cliente::where('numeroDocumentoIdentidad', $this->cedula)->first();
-    
-        if (!$this->user->invoices) {
-            session()->flash('message', '¡No tienes facturas pendientes!');
+            // Lógica del componente
+            $this->user = Cliente::where('numeroDocumentoIdentidad', $this->cedula)->first();
+
+            // Verificar si no se encontró el usuario
+            if (!$this->user) {
+                $this->addError('cedula', 'No existe un cliente con ese número de identificación.');
+                $this->invoices = [];
+                return;
+
+            }
+
+            // Verificar si el usuario no tiene facturas
+            if ($this->user->invoices->isEmpty()) {
+                $this->invoices = [];
+                session()->flash('status', 'No tienes facturas pendientes 🥳');
+                return;
+            }
+
+            $this->invoices = $this->user->invoices->map(function ($invoice) {
+                $invoiceClone = clone $invoice;
+                $invoiceClone->checked = true; // Nueva propiedad reactiva
+                return $invoiceClone;
+            })->toArray();
+
+            $this->actualizaValorTotal();
             $this->isSubmitting = false;
-            return;
+        } catch (ValidationException $e) {
+            $this->addError('cedula', $e->getMessage());
+            $this->invoices = [];
         }
 
-        $this->invoices = $this->user->invoices->map(function ($invoice) {
-            $invoiceClone = clone $invoice; 
-            $invoiceClone->checked = true; // Nueva propiedad reactiva
-            return $invoiceClone;
-        })->toArray();
 
-        $this->actualizaValorTotal();
-        
-        //dd($this->invoices);
-        // Restablecer el estado después de enviar
-        $this->isSubmitting = false;
-
-        // Opcionalmente, limpiar los campos
-        //$this->reset('cedula');
     }
 
     public function submit_pagarFacturas()
     {
         // Validaciones
         $this->isSubmitting = true;
-        
+
         // Lógica del componente
-        
-        sleep(10);
-        
+        if ($this->invoices_checked->isEmpty()) {
+            session()->flash('error', 'Debe seleccionar al menos una factura válida');
+        }
+
+
         // Restablecer el estado después de enviar
         $this->isSubmitting = false;
 
-      
+
     }
 
     public function actualizaValorTotal()
@@ -69,6 +82,9 @@ class FormularioConsultaFacturas extends Component
         $this->total = collect($this->invoices)
         ->where('checked', true) // Filtrar facturas seleccionadas
         ->sum('valor'); // Sumar los valores seleccionados
+
+        $this->invoices_checked = collect($this->invoices)
+        ->where('checked', true);
     }
 
     public function render()
