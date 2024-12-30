@@ -40,7 +40,7 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid px-0">
             <div class="d-flex">
-                <a class="navbar-brand" href="../../index.html"><img src="../../assets/images/brand/logo/logo.svg"
+                <a class="navbar-brand" href="/"><img src="../../assets/images/brand/logo/logo.svg"
                         alt="Geeks high quality website templates created with Bootstrap 5."></a>
 
             </div>
