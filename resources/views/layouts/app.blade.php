@@ -1,39 +1,160 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="Codescandy">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <script>
+        // Render blocking JS:
+        if (localStorage.theme) document.documentElement.setAttribute("data-theme", localStorage.theme);
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    </script>
 
-        @livewireStyles
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/favicon/favicon.ico">
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
-         @livewireScripts
-    </body>
+    <!-- Libs CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="{{ asset('assets/libs/magnific-popup/dist/magnific-popup.css')}}" rel="stylesheet" >
+    <link href="{{ asset('assets/fonts/feather/feather.css')}}" rel="stylesheet" >
+    <link href="{{ asset('assets/libs/bootstrap-icons/font/bootstrap-icons.css')}}" rel="stylesheet" >
+    <link href="{{ asset('assets/libs/@mdi/font/css/materialdesignicons.min.css')}}" rel="stylesheet" >
+    <link href="{{ asset('assets/libs/simplebar/dist/simplebar.min.css')}}" rel="stylesheet" >
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Theme CSS -->
+    <link href="{{ asset('assets/css/theme.min.css')}}" rel="stylesheet" >
+    <link href="{{ asset('assets/css/custom.css')}}?<?php echo date('Ymdhiiss')?>" rel="stylesheet" >
+    @livewireStyles
+    <title>{{ config('app.name', 'App') }} :. Panel de Administración</title>
+</head>
+
+<body>
+
+    {{ $slot }}
+
+    <x-whatsapp-fab></x-whatsapp-fab>
+
+    @livewireScripts
+    <!-- Scripts -->
+    <!-- Libs JS -->
+    <script src="{{ asset('assets/libs/jquery/dist/jquery.min.js')}}"></script>
+    <script src="{{ asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{ asset('assets/libs/simplebar/dist/simplebar.min.js')}}"></script>
+
+
+
+    <!-- Theme JS -->
+    <script src="{{ asset('assets/js/theme.min.js')}}"></script>
+    <script src="{{ asset('assets/libs/flatpickr/dist/flatpickr.min.js')}}"></script>
+    <script src="{{ asset('assets/js/vendors/flatpickr.js')}}"></script>
+    <script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js')}}"></script>
+    <script type="text/javascript" src="assets/libs/js/jquery.fireworks.js"></script>
+    <script type="text/javascript" src="{{ asset('assets/js/vendors/jquery.fireworks.js')}}"></script>
+    {{-- <script src="{{ asset('assets/js/vendors/chart.js')}}"></script> --}}
+
+
+    <script src="{{ asset('assets/libs/inputmask/dist/jquery.inputmask.min.js')}}"></script>
+    <script src="{{ asset('assets/libs/bs-stepper/dist/js/bs-stepper.min.js')}}"></script>
+    <script src="{{ asset('assets/js/vendors/beStepper.js')}}"></script>
+    <script src="{{ asset('assets/js/vendors/inputmask.js')}}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="{{ asset('assets/js/admin/dashboard.js')}}?<?php echo date('Ymdhiiss')?>" defer></script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        function copyToClipboard() {
+            // Get the text field
+            let link = document.getElementById("button-referido");
+            let copyText = document.getElementById("link-referido");
+
+
+            link.textContent = "Link Copiado!!!"
+
+            setTimeout(() => {
+                link.textContent = `Copiar tu link de referido `
+                let newI = document.createElement("i");
+                newI.classList.add("bi");
+                newI.classList.add("bi-clipboard");
+                console.log(newI)
+                link.appendChild(newI);
+            }, 1000);
+
+            // Select the text field
+            copyText.select();
+            // Copy the text inside the text field
+            navigator.clipboard.writeText(copyText.value);
+            // Alert the copied text
+            //alert("Link de referido: " + copyText.value);
+        }
+    </script>
+
+    <script>
+        function googleTranslateElementInit(){
+            new google.translate.TranslateElement(
+                {pageLanguaje: 'es'},
+                'google_translate_element'
+            )
+        }
+
+    </script>
+
+    <script type="text/javascript">
+        $(window).on('load', function() {
+
+            $(".goog-logo-link").empty();
+            $('.goog-te-gadget').html($('.goog-te-gadget').children());
+
+            let selectElement = document.querySelector('.goog-te-combo');
+            // Agrega la clase "form-select" al elemento
+            selectElement.classList.add('form-select');
+            selectElement.classList.add('text-dark');
+            //Autoseleccionar idioma
+
+            if (window.navigator.language) {
+                //document.querySelector('.goog-te-combo').value=window.navigator.language;
+            }
+
+            console.log(window.navigator.language);
+
+            $('#modalpromo').modal('show');
+            $("#modalpromo").on('hidden.bs.modal', function (e) {
+                $("#modalpromo iframe").attr("src", $("#modalpromo iframe").attr("src"));
+                $('#modal-fin').modal('show');
+            });
+
+        });
+    </script>
+
+    <script type="text/javascript">
+        function moverDerecha(){
+            let arbolContenedor = document.getElementById('wraper-arbol');
+
+            console.log(arbolContenedor);
+            arbolContenedor = arbolContenedor.scrollLeft += 50;
+        }
+
+         function moverIzquierda(){
+            let arbolContenedor = document.getElementById('wraper-arbol');
+
+            console.log(arbolContenedor);
+            arbolContenedor = arbolContenedor.scrollLeft -= 50;
+        }
+    </script>
+
+    <script type="text/javascript" >
+      $('.fireworks').fireworks();
+    </script>
+</body>
+
 </html>
+
