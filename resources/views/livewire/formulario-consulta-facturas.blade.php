@@ -95,7 +95,9 @@
                                                     <!-- heading -->
                                                     <h3 class="mb-1 fs-4">
                                                         <span class="text-inherit">Factura #:{{ $invoice["numeroFactura"] }}</span>
-                                                        <span class="badge bg-danger-soft ms-2">Fecha limite: {{ $invoice["fechaLimitePago"] }} </span>
+                                                        <span class="badge {{ \Carbon\Carbon::parse($invoice['fechaLimitePago'])->isFuture() ? 'bg-success-soft' : 'bg-danger-soft' }} ms-2">
+                                                            Fecha limite: {{ $invoice['fechaLimitePago'] }}
+                                                        </span>
                                                     </h3>
 
                                                     <div>
