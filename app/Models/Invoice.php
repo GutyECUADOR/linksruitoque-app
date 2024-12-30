@@ -11,7 +11,11 @@ class Invoice extends Model
 
     protected $fillable = [
         'user_id',
-        'amount',
-        'password',
+        'numeroFactura',
+        'referenciaPago',
+        'pago',
+        'pagoVencido',
+        'periodoCancelar',
+        'fechaLimitePago'
     ];
 }
