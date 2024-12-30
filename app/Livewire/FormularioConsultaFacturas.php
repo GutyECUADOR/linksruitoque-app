@@ -26,8 +26,7 @@ class FormularioConsultaFacturas extends Component
 
         // Lógica del componente
         $this->user = Cliente::where('numeroDocumentoIdentidad', $this->cedula)->first();
-        //dd($this->user->invoices);
-
+    
         if (!$this->user->invoices) {
             session()->flash('message', '¡No tienes facturas pendientes!');
             $this->isSubmitting = false;
@@ -36,12 +35,11 @@ class FormularioConsultaFacturas extends Component
 
         $this->invoices = $this->user->invoices->map(function ($invoice) {
             $invoiceClone = clone $invoice; 
-            $invoiceClone->checked = true; // Nueva propiedad
-            $invoiceClone->valor = $invoiceClone->valor ?? 0; // Asegura un valor numérico
+            $invoiceClone->checked = false; // Nueva propiedad reactiva
             return $invoiceClone;
-        });
+        })->toArray();
         
-        //dd($this->invoices[0]->referenciaPago);
+        //dd($this->invoices);
         // Restablecer el estado después de enviar
         $this->isSubmitting = false;
 
@@ -49,12 +47,11 @@ class FormularioConsultaFacturas extends Component
         $this->reset('cedula');
     }
 
-    public function updatedInvoices($value, $key)
+    public function actualizaValorTotal()
     {
-    // Recalcula el total basado en las facturas seleccionadas
-    $this->total = collect($this->invoices)
-        ->where('checked', true)
-        ->sum('valor');
+        $this->total = collect($this->invoices)
+        ->where('checked', true) // Filtrar facturas seleccionadas
+        ->sum('valor'); // Sumar los valores seleccionados
     }
 
     public function render()

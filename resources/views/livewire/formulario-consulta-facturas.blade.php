@@ -94,24 +94,24 @@
                                                 <div>
                                                     <!-- heading -->
                                                     <h3 class="mb-1 fs-4">
-                                                        <span class="text-inherit">Factura #:{{ $invoice->numeroFactura }}</span>
-                                                        <span class="badge bg-danger-soft ms-2">Fecha limite: {{ $invoice->fechaLimitePago }} </span>
+                                                        <span class="text-inherit">Factura #:{{ $invoice["numeroFactura"] }}</span>
+                                                        <span class="badge bg-danger-soft ms-2">Fecha limite: {{ $invoice["fechaLimitePago"] }} </span>
                                                     </h3>
 
                                                     <div>
-                                                        <span>{{ $invoice->referenciaPago }}</span>
-                                                        <span class="ms-0"> - {{ $invoice->periodoCancelar }}</span>
+                                                        <span>{{$invoice["referenciaPago"] }}</span>
+                                                        <span class="ms-0"> - {{ $invoice["periodoCancelar"] }}</span>
                                                     </div>
-                                                    <h2>$ {{ $invoice->valor }}</h2>
+                                                    <h2>$ {{ $invoice["valor"] }}</h2>
                                                 </div>
                                                 <div>
                                                     <div class="form-check">
                                                         <label class="form-check-label">
                                                             <input 
                                                                 class="form-check-input"
-                                                                wire:model="invoice.checked"
-                                                                type="checkbox"
-                                                                checked>
+                                                                wire:model="invoices.{{ $index }}.checked"
+                                                                wire:click="actualizaValorTotal()"
+                                                                type="checkbox">
                                                         
                                                             Pagar esta factura
                                                         </label>
