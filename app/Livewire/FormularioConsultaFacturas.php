@@ -6,6 +6,7 @@ use App\Models\Cliente;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Illuminate\Validation\ValidationException;
 
@@ -17,6 +18,8 @@ class FormularioConsultaFacturas extends Component
     public $invoices_checked = [];
     public $total = 0;
     public $isSubmitting = false;
+    public $invoice_reference = '';
+    public $invoice_reference_description = '';
 
     protected $rules = [
         'cedula' => 'required|string|max:25'
@@ -73,7 +76,6 @@ class FormularioConsultaFacturas extends Component
         $seed = Carbon::now()->toIso8601String(); //date('c');
 
         $rawNonce = rand();
-
         $tranKey = base64_encode(hash('sha256', $rawNonce . $seed . $secretKey, true));
         $nonce = base64_encode($rawNonce);
         $EXPIRATION_MINUTES_ADD = 30;
@@ -92,11 +94,11 @@ class FormularioConsultaFacturas extends Component
                 "seed" => $seed,
             ],
             "payment" => [
-                "reference" => "1122334455", 
-                "description" => "Prueba", 
+                "reference" => $this->invoice_reference, 
+                "description" => $this->invoice_reference_description, 
                 "amount" => [
                       "currency" => "USD", 
-                      "total" => 100 
+                      "total" => $this->total 
                 ] 
             ],
             "expiration" => Carbon::now()->addMinute($EXPIRATION_MINUTES_ADD)->toIso8601String(),
@@ -105,20 +107,28 @@ class FormularioConsultaFacturas extends Component
             "userAgent" => $_SERVER['HTTP_USER_AGENT']
         ];
 
-        //dd(json_encode($body));
+        Log::build([
+            'driver' => 'single',
+            'path' => storage_path('logs/place-to-pay-requests.log'),
+        ])->info(json_encode([$body]));
 
         // Inicializar el cliente HTTP Guzzle
         $client = new Client([
             'base_uri' => env("PLACE_TO_PAY_BASE_URL"),
-            'timeout'  => 10.0, // Opcional: Tiempo de espera para la solicitud
+            'timeout'  => 10.0, 
         ]);
 
         $request = new Request('POST', 'https://checkout.test.goupagos.com.co/api/session', $headers, json_encode($body));
         $response = $client->send($request);
-        dd($response->getBody());
+        $jsonResponse = json_decode($response->getBody(), true);
 
-        // Restablecer el estado después de enviar
+        Log::build([
+            'driver' => 'single',
+            'path' => storage_path('logs/place-to-pay-requests.log'),
+        ])->info(json_encode([$jsonResponse]));
+        
         $this->isSubmitting = false;
+        return redirect()->to($jsonResponse['processUrl']);
     }
 
     public function actualizaValorTotal()
@@ -129,6 +139,13 @@ class FormularioConsultaFacturas extends Component
 
         $this->invoices_checked = collect($this->invoices)
             ->where('checked', true);
+
+        $this->invoice_reference = '';
+        $this->invoice_reference_description = '';
+        foreach ($this->invoices_checked as $invoice) {
+            $this->invoice_reference = $this->invoice_reference.$invoice["numeroFactura"];
+            $this->invoice_reference_description = $this->invoice_reference_description . ' Factura# '.$invoice["numeroFactura"];
+        }
     }
 
     public function render()
