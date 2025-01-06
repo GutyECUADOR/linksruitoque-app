@@ -40,8 +40,8 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid px-0">
             <div class="d-flex">
-                <a class="navbar-brand" href="../../index.html"><img src="../../assets/images/brand/logo/logo.svg"
-                        alt="Geeks high quality website templates created with Bootstrap 5."></a>
+                <a class="navbar-brand" href="/"><img style="max-width: 70px;" src="{{ asset('assets/images/brand/logo/logo.png')}}"
+                        alt="Logo"></a>
 
             </div>
             <div class="order-lg-3">
@@ -72,21 +72,11 @@
                 <ul class="navbar-nav mx-auto">
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarLanding"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Pago de servicios
+                        <a href="{{ route('invoices.index') }}" class="nav-link">
+                            <i class="fa fa-credit-card" aria-hidden="true"></i>
+                            Pago de facturas
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarLanding">
-                            <li>
-                                <h4 class="dropdown-header">Servicios</h4>
-                            </li>
-                            <li>
-                                <a href="{{ route('pagos.index') }}"
-                                    class="dropdown-item d-flex justify-content-between">
-                                    Pagos de facturas online <span class="badge bg-primary ms-1">Nuevo</span>
-                                </a>
-                            </li>
-                        </ul>
+                        
                     </li>
 
                 </ul>

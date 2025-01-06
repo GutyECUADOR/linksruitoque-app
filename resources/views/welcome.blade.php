@@ -40,8 +40,10 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid px-0">
             <div class="d-flex">
-                <a class="navbar-brand" href="/"><img src="../../assets/images/brand/logo/logo.svg"
-                        alt="Geeks high quality website templates created with Bootstrap 5."></a>
+            <a class="navbar-brand" href="/">
+                <img style="max-width: 70px;" src="{{ asset('assets/images/brand/logo/logo.png')}}"
+                alt="Logo">
+            </a>
 
             </div>
             <div class="order-lg-3">
@@ -72,21 +74,11 @@
                 <ul class="navbar-nav mx-auto">
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarLanding"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Pago de servicios
+                        <a href="{{ route('invoices.index') }}" class="nav-link">
+                            <i class="fa fa-credit-card" aria-hidden="true"></i>
+                            Pago de facturas
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarLanding">
-                            <li>
-                                <h4 class="dropdown-header">Servicios</h4>
-                            </li>
-                            <li>
-                                <a href="{{ route('invoices.index') }}"
-                                    class="dropdown-item d-flex justify-content-between">
-                                    Pagos de facturas online <span class="badge bg-primary ms-1">Nuevo</span>
-                                </a>
-                            </li>
-                        </ul>
+                        
                     </li>
 
                 </ul>
@@ -108,20 +100,16 @@
                         <div class="">
                             <!-- heading -->
                             <h5 class="text-dark mb-4"><i
-                                    class="fe fe-check icon-xxs icon-shape bg-light-success text-success rounded-circle me-2"></i>Most
-                                trusted education platform</h5>
+                                    class="fe fe-check icon-xxs icon-shape bg-light-success text-success rounded-circle me-2"></i>Planes y pagos 100% confiables</h5>
                             <!-- heading -->
-                            <h1 class="display-3 fw-bold mb-3">Grow your skills and advance career</h1>
+                            <h1 class="display-3 fw-bold mb-3">Planes de internet adaptados a tus necesidades</h1>
                             <!-- para -->
-                            <p class="pe-lg-10 mb-5">Start, switch, or advance your career with more than 5,000
-                                courses, Professional
-                                Certificates, and degrees from world-class universities and companies.</p>
+                            <p class="pe-lg-10 mb-5">No te quedes fuera. Contrata uno de nuestros planes con un descuentro promocional por tiempo limitado.</p>
                             <!-- btn -->
-                            <a href="#" class="btn btn-primary">Join Free Now</a>
+                            <a href="#" class="btn btn-primary">Adquiere tu plan ahora</a>
                             <a href="https://www.youtube.com/watch?v=JRzWRZahOVU"
                                 class="popup-youtube fs-4 text-inherit ms-3"><img
-                                    src="../../assets/images/svg/play-btn.svg" alt="play" class="me-2">Watch
-                                Demo</a>
+                                    src="../../assets/images/svg/play-btn.svg" alt="play" class="me-2">Video promocional</a>
 
 
                         </div>

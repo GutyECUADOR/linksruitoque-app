@@ -12,8 +12,8 @@
                         <div class="card-body p-6">
                             <div class="mb-4">
                                 <a href="/">
-                                    <img style="max-width: 50px;"
-                                        src="{{ asset('assets/images/brand/logo/logo-cybergrupon.svg') }}" class="mb-4"
+                                    <img style="max-width: 70px;"
+                                        src="{{ asset('assets/images/brand/logo/logo.png')}}" class="mb-4"
                                         alt="logo-icon">
                                 </a>
                                 <h1 class="mb-1 fw-bold">Iniciar Sesión</h1>
