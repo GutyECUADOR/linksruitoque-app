@@ -117,8 +117,6 @@ class FormularioConsultaFacturas extends Component
         $response = $client->send($request);
         dd($response->getBody());
 
-
-        
         // Restablecer el estado después de enviar
         $this->isSubmitting = false;
     }
@@ -128,6 +126,9 @@ class FormularioConsultaFacturas extends Component
         $this->total = collect($this->invoices)
             ->where('checked', true) // Filtrar facturas seleccionadas
             ->sum('valor'); // Sumar los valores seleccionados
+
+        $this->invoices_checked = collect($this->invoices)
+            ->where('checked', true);
     }
 
     public function render()
