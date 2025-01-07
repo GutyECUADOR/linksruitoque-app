@@ -40,7 +40,6 @@ class FormularioConsultaFacturas extends Component
                 $this->addError('cedula', 'No existe un cliente con ese número de identificación.');
                 $this->invoices = [];
                 return;
-
             }
 
             // Verificar si el usuario no tiene facturas
@@ -62,7 +61,6 @@ class FormularioConsultaFacturas extends Component
             $this->addError('cedula', $e->getMessage());
             $this->invoices = [];
         }
-
     }
 
     public function submit_pagarFacturas()
@@ -83,7 +81,7 @@ class FormularioConsultaFacturas extends Component
         $headers = [
             'Content-Type' => 'application/json',
             'Accept' => 'application/json'
-          ];
+        ];
 
         $body = [
             "locale" => "es_CO",
@@ -94,15 +92,15 @@ class FormularioConsultaFacturas extends Component
                 "seed" => $seed,
             ],
             "payment" => [
-                "reference" => $this->invoice_reference, 
-                "description" => $this->invoice_reference_description, 
+                "reference" => $this->invoice_reference,
+                "description" => $this->invoice_reference_description,
                 "amount" => [
-                      "currency" => "USD", 
-                      "total" => $this->total 
-                ] 
+                    "currency" => env('PLACE_TO_PAY_MONEDA'),
+                    "total" => $this->total
+                ]
             ],
             "expiration" => Carbon::now()->addMinute($EXPIRATION_MINUTES_ADD)->toIso8601String(),
-            "returnUrl" => "http://linksruitoque-app.test/invoices",
+            "returnUrl" => env('PLACE_TO_PAY_RETURNURL'),
             "ipAddress" => $_SERVER['REMOTE_ADDR'],
             "userAgent" => $_SERVER['HTTP_USER_AGENT']
         ];
@@ -115,20 +113,30 @@ class FormularioConsultaFacturas extends Component
         // Inicializar el cliente HTTP Guzzle
         $client = new Client([
             'base_uri' => env("PLACE_TO_PAY_BASE_URL"),
-            'timeout'  => 10.0, 
+            'timeout'  => 10.0,
         ]);
 
-        $request = new Request('POST', 'https://checkout.test.goupagos.com.co/api/session', $headers, json_encode($body));
-        $response = $client->send($request);
-        $jsonResponse = json_decode($response->getBody(), true);
+        try {
+            $request = new Request('POST', 'https://checkout.test.goupagos.com.co/api/session', $headers, json_encode($body));
+            $response = $client->send($request);
+            $jsonResponse = json_decode($response->getBody(), true);
+            Log::build([
+                'driver' => 'single',
+                'path' => storage_path('logs/place-to-pay-requests.log'),
+            ])->info(json_encode([$jsonResponse]));
 
-        Log::build([
-            'driver' => 'single',
-            'path' => storage_path('logs/place-to-pay-requests.log'),
-        ])->info(json_encode([$jsonResponse]));
-        
-        $this->isSubmitting = false;
-        return redirect()->to($jsonResponse['processUrl']);
+            return redirect()->to($jsonResponse['processUrl']);
+        } catch (\Throwable $th) {
+            $this->addError('valor', 'No se pudo generar el pago, contacte a soporte. Code:'.$th->getMessage());
+            Log::build([
+                'driver' => 'single',
+                'path' => storage_path('logs/errors-place-to-pay-requests.log'),
+            ])->info(json_encode($th->getMessage()));
+        } finally {
+
+            $this->isSubmitting = false;
+            
+        }
     }
 
     public function actualizaValorTotal()
@@ -143,8 +151,8 @@ class FormularioConsultaFacturas extends Component
         $this->invoice_reference = '';
         $this->invoice_reference_description = '';
         foreach ($this->invoices_checked as $invoice) {
-            $this->invoice_reference = $this->invoice_reference.$invoice["numeroFactura"];
-            $this->invoice_reference_description = $this->invoice_reference_description . ' Factura# '.$invoice["numeroFactura"];
+            $this->invoice_reference = $this->invoice_reference . $invoice["numeroFactura"];
+            $this->invoice_reference_description = $this->invoice_reference_description . ' Factura# ' . $invoice["numeroFactura"];
         }
     }
 
