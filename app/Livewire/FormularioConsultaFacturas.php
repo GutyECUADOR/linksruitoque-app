@@ -13,7 +13,7 @@ use Illuminate\Validation\ValidationException;
 class FormularioConsultaFacturas extends Component
 {
     public $cedula;
-    public $user;
+    public $cliente;
     public $invoices = [];
     public $invoices_checked = [];
     public $total = 0;
@@ -33,23 +33,23 @@ class FormularioConsultaFacturas extends Component
 
 
             // Lógica del componente
-            $this->user = Cliente::where('numeroDocumentoIdentidad', $this->cedula)->first();
+            $this->cliente = Cliente::where('numeroDocumentoIdentidad', $this->cedula)->first();
 
             // Verificar si no se encontró el usuario
-            if (!$this->user) {
+            if (!$this->cliente) {
                 $this->addError('cedula', 'No existe un cliente con ese número de identificación.');
                 $this->invoices = [];
                 return;
             }
 
             // Verificar si el usuario no tiene facturas
-            if ($this->user->invoices->isEmpty()) {
+            if ($this->cliente->pendingOrRejectedInvoices->isEmpty()) {
                 $this->invoices = [];
                 session()->flash('status', 'No tienes facturas pendientes 🥳');
                 return;
             }
 
-            $this->invoices = $this->user->invoices->map(function ($invoice) {
+            $this->invoices = $this->cliente->invoices->map(function ($invoice) {
                 $invoiceClone = clone $invoice;
                 $invoiceClone->checked = true; // Nueva propiedad reactiva
                 return $invoiceClone;
@@ -135,7 +135,7 @@ class FormularioConsultaFacturas extends Component
         } finally {
 
             $this->isSubmitting = false;
-            
+
         }
     }
 
@@ -151,7 +151,7 @@ class FormularioConsultaFacturas extends Component
         $this->invoice_reference = '';
         $this->invoice_reference_description = '';
         foreach ($this->invoices_checked as $invoice) {
-            $this->invoice_reference = $this->invoice_reference . $invoice["numeroFactura"];
+            $this->invoice_reference = $this->invoice_reference . $invoice["numeroFactura"] . '-';
             $this->invoice_reference_description = $this->invoice_reference_description . ' Factura# ' . $invoice["numeroFactura"];
         }
     }

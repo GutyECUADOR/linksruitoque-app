@@ -19,8 +19,13 @@ class Cliente extends Model
         'direccionCorrespondencia'
     ];
 
-    public function invoices(): HasMany {
+    public function invoices(): HasMany
+    {
         return $this->hasMany(Invoice::class);
     }
 
+    public function pendingOrRejectedInvoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class)->whereIn('status', ['PENDING', 'REJECTED']);
+    }
 }

@@ -36,11 +36,20 @@ class UserSeeder extends Seeder
             'direccionCorrespondencia' => 'Direccion de pruebas',
         ]);
 
+        $cliente2 = Cliente::create([
+            'tipoDocumentoIdentidad' => 'cedula',
+            'numeroDocumentoIdentidad' => '1600505506',
+            'nombre' => 'Pruebas',
+            'telefonoContacto' => '+593999887766',
+            'email' => 'gutiec@gmail.com',
+            'direccionCorrespondencia' => 'Direccion de pruebas',
+        ]);
+
         Invoice::create([
             'cliente_id' => $cliente->id,
             'numeroFactura' => '001',
             'referenciaPago' => 'pruebas',
-            'valor' => 10,
+            'valor' => 1000,
             'valorVencido' => 12,
             'periodoCancelar' => 'Del 20 de junio al 20 de agosto',
             'fechaLimitePago' => Carbon::now()->format('Y-m-d')
@@ -50,11 +59,22 @@ class UserSeeder extends Seeder
             'cliente_id' => $cliente->id,
             'numeroFactura' => '002',
             'referenciaPago' => 'pruebas',
-            'valor' => 20,
+            'valor' => 2000,
             'valorVencido' => 22,
             'periodoCancelar' => 'Del 20 de junio al 20 de agosto',
             'fechaLimitePago' => Carbon::now()->format('Y-m-d')
         ]);
+
+        Invoice::create([
+            'cliente_id' => $cliente2->id,
+            'numeroFactura' => '003',
+            'referenciaPago' => 'pruebas',
+            'valor' => 2500,
+            'valorVencido' => 25,
+            'periodoCancelar' => 'Del 20 de junio al 20 de agosto',
+            'fechaLimitePago' => Carbon::now()->format('Y-m-d')
+        ]);
+
 
 
 
