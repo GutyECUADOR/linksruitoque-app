@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('valor');
             $table->decimal('valorVencido');
             $table->string('periodoCancelar');
-            $table->string('status')->default('PENDING');
+            $table->string('status')->default('UNPAYMENT');
             $table->timestamp('fechaLimitePago');
             $table->timestamps();
         });

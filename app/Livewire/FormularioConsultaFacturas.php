@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Cliente;
+use App\Models\Invoice;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
@@ -43,13 +44,14 @@ class FormularioConsultaFacturas extends Component
             }
 
             // Verificar si el usuario no tiene facturas
+
             if ($this->cliente->pendingOrRejectedInvoices->isEmpty()) {
                 $this->invoices = [];
                 session()->flash('status', 'No tienes facturas pendientes 🥳');
                 return;
             }
 
-            $this->invoices = $this->cliente->invoices->map(function ($invoice) {
+            $this->invoices = $this->cliente->pendingOrRejectedInvoices->map(function ($invoice) {
                 $invoiceClone = clone $invoice;
                 $invoiceClone->checked = true; // Nueva propiedad reactiva
                 return $invoiceClone;
@@ -124,6 +126,16 @@ class FormularioConsultaFacturas extends Component
                 'driver' => 'single',
                 'path' => storage_path('logs/place-to-pay-requests.log'),
             ])->info(json_encode([$jsonResponse]));
+
+            /*TODO ESTABLECER EL STATUS DE LAS FACTURAS COMO PENDIENTE*/
+            dd($this->invoices_checked);
+
+            //$array_ids_invoices = array_filter(explode("-", ));
+            foreach ($this->invoices_checked as $invoice_id) {
+                $invoice = Invoice::where('numeroFactura', $invoice_id)->first();
+                $invoice->status = 'PENDING';
+                $invoice->save();
+            }
 
             return redirect()->to($jsonResponse['processUrl']);
         } catch (\Throwable $th) {
