@@ -78,7 +78,7 @@
                             <i class="fa fa-credit-card" aria-hidden="true"></i>
                             Pago de facturas
                         </a>
-                        
+
                     </li>
 
                 </ul>
@@ -90,7 +90,7 @@
 
     <!-- section -->
     <main>
-        <section class="py-lg-16 py-5">
+        <section class="py-lg-10 py-5">
             <!-- container -->
             <div class="container">
                 <!-- row -->
@@ -138,6 +138,8 @@
                 </div>
             </div>
         </section>
+
+        <x-preguntas-frecuentes></x-preguntas-frecuentes>
 
     </main>
 
