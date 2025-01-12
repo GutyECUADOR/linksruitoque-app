@@ -128,11 +128,8 @@ class FormularioConsultaFacturas extends Component
             ])->info(json_encode([$jsonResponse]));
 
             /*TODO ESTABLECER EL STATUS DE LAS FACTURAS COMO PENDIENTE*/
-            dd($this->invoices_checked);
-
-            //$array_ids_invoices = array_filter(explode("-", ));
-            foreach ($this->invoices_checked as $invoice_id) {
-                $invoice = Invoice::where('numeroFactura', $invoice_id)->first();
+            foreach ($this->invoices_checked as $invoice) {
+                $invoice = Invoice::where('numeroFactura', $invoice["numeroFactura"])->first();
                 $invoice->status = 'PENDING';
                 $invoice->save();
             }
