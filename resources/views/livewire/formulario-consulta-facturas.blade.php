@@ -131,7 +131,7 @@
                                                 <h3 class="mb-1 fs-4">
                                                     <span class="text-inherit">Factura #:{{ $invoice["numeroFactura"] }}</span>
                                                     <span class="badge {{ \Carbon\Carbon::parse($invoice['fechaLimitePago'])->isFuture() ? 'bg-success-soft' : 'bg-danger-soft' }} ms-2">
-                                                        Fecha limite: {{ $invoice['fechaLimitePago'] }}
+                                                        Fecha limite: {{ \Carbon\Carbon::parse($invoice['fechaLimitePago'])->subDays(1) }}
                                                     </span>
                                                 </h3>
 
@@ -139,7 +139,11 @@
                                                     <span>{{$invoice["referenciaPago"] }}</span>
                                                     <span class="ms-0"> - {{ $invoice["periodoCancelar"] }}</span>
                                                 </div>
-                                                <h2>$ {{ $invoice["valor"] }}</h2>
+                                                @if (\Carbon\Carbon::now() <= $invoice['fechaLimitePago'])
+                                                    <h2>$ {{ $invoice["valor"] }}</h2>
+                                                @else
+                                                    <h2>$ {{ $invoice["valorVencido"] }}</h2>
+                                                @endif
                                             </div>
                                             <div>
                                                 <div class="form-check">

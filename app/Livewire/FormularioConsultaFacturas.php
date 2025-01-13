@@ -152,7 +152,14 @@ class FormularioConsultaFacturas extends Component
     {
         $this->total = collect($this->invoices)
             ->where('checked', true) // Filtrar facturas seleccionadas
-            ->sum('valor'); // Sumar los valores seleccionados
+            //->sum('valor'); // Sumar los valores seleccionados
+            ->reduce(function ($sum, $invoice) {
+                if (Carbon::now() <= $invoice['fechaLimitePago']) {
+                    return $sum + $invoice['valor'];
+                }else {
+                    return $sum + $invoice['valorVencido'];
+                }
+            }, 0); 
 
         $this->invoices_checked = collect($this->invoices)
             ->where('checked', true);
