@@ -150,7 +150,26 @@
                                                 @else
                                                     <h2>$ {{ $invoice["valorVencido"] }}</h2>
                                                 @endif
+
+                                                @if ($invoice['status'] === 'PENDING')
+                                                    <span class="badge bg-info-soft">
+                                                        Factura pendiente verificación de pago
+                                                    </span>
+                                                @elseif ($invoice['status'] === 'UNPAYMENT')
+                                                    <span class="badge bg-danger-soft">
+                                                        Factura pendiente de pago
+                                                    </span>
+                                                @elseif ($invoice['status'] === 'APPROVED')
+                                                    <span class="badge bg-primary-soft">
+                                                        Factura pagada
+                                                    </span>
+                                                @else
+                                                    Estado desconocido
+                                                @endif
+
                                             </div>
+
+                                            @if ($invoice['status'] === 'UNPAYMENT')
                                             <div>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
@@ -164,6 +183,7 @@
                                                     </label>
                                                 </div>
                                             </div>
+                                            @endif
                                         </div>
 
 
