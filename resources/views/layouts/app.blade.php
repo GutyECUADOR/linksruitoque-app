@@ -40,8 +40,6 @@
 
     {{ $slot }}
 
-    <x-whatsapp-fab></x-whatsapp-fab>
-
     @livewireScripts
     <!-- Scripts -->
     <!-- Libs JS -->
@@ -69,91 +67,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{{ asset('assets/js/admin/dashboard.js')}}?<?php echo date('Ymdhiiss')?>" defer></script>
-    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-    <script>
-        function copyToClipboard() {
-            // Get the text field
-            let link = document.getElementById("button-referido");
-            let copyText = document.getElementById("link-referido");
-
-
-            link.textContent = "Link Copiado!!!"
-
-            setTimeout(() => {
-                link.textContent = `Copiar tu link de referido `
-                let newI = document.createElement("i");
-                newI.classList.add("bi");
-                newI.classList.add("bi-clipboard");
-                console.log(newI)
-                link.appendChild(newI);
-            }, 1000);
-
-            // Select the text field
-            copyText.select();
-            // Copy the text inside the text field
-            navigator.clipboard.writeText(copyText.value);
-            // Alert the copied text
-            //alert("Link de referido: " + copyText.value);
-        }
-    </script>
-
-    <script>
-        function googleTranslateElementInit(){
-            new google.translate.TranslateElement(
-                {pageLanguaje: 'es'},
-                'google_translate_element'
-            )
-        }
-
-    </script>
-
-    <script type="text/javascript">
-        $(window).on('load', function() {
-
-            $(".goog-logo-link").empty();
-            $('.goog-te-gadget').html($('.goog-te-gadget').children());
-
-            let selectElement = document.querySelector('.goog-te-combo');
-            // Agrega la clase "form-select" al elemento
-            selectElement.classList.add('form-select');
-            selectElement.classList.add('text-dark');
-            //Autoseleccionar idioma
-
-            if (window.navigator.language) {
-                //document.querySelector('.goog-te-combo').value=window.navigator.language;
-            }
-
-            console.log(window.navigator.language);
-
-            $('#modalpromo').modal('show');
-            $("#modalpromo").on('hidden.bs.modal', function (e) {
-                $("#modalpromo iframe").attr("src", $("#modalpromo iframe").attr("src"));
-                $('#modal-fin').modal('show');
-            });
-
-        });
-    </script>
-
-    <script type="text/javascript">
-        function moverDerecha(){
-            let arbolContenedor = document.getElementById('wraper-arbol');
-
-            console.log(arbolContenedor);
-            arbolContenedor = arbolContenedor.scrollLeft += 50;
-        }
-
-         function moverIzquierda(){
-            let arbolContenedor = document.getElementById('wraper-arbol');
-
-            console.log(arbolContenedor);
-            arbolContenedor = arbolContenedor.scrollLeft -= 50;
-        }
-    </script>
-
-    <script type="text/javascript" >
-      $('.fireworks').fireworks();
-    </script>
+   
 </body>
 
 </html>

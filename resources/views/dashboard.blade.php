@@ -1,17 +1,24 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+    <!-- Wrapper -->
+    <main id="db-wrapper">
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
+        <!-- Sidebar -->
+        <x-sidebar-menu></x-sidebar-menu>
+
+        <!-- Page Content -->
+        <section id="page-content">
+            <div class="header">
+                <!-- navbar -->
+                <x-navbar-menu></x-sidebar-menu>
+
             </div>
-        </div>
-    </div>
+            <!-- Container fluid -->
+            <div class="container-fluid p-4" id="app">
+                <div class="row">
+                  
+                </div>
+                
+            </div>
+        </section>
+    </main>
 </x-app-layout>
