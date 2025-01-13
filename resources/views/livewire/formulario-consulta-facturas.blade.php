@@ -13,6 +13,12 @@
                             <p class="lead text-center">Consulta aqui tus facturas pendientes, y realiza el pago de forma segura.</p>
                         </div>
 
+                        <noscript>
+                            <div style="background-color: #ffdddd; color: #d8000c; padding: 10px; text-align: center;">
+                                JavaScript está deshabilitado en tu navegador. Por favor, habilítalo para disfrutar de todas las funcionalidades del sitio.
+                            </div>
+                        </noscript>
+
                         <!-- Flash messages -->
                         <x-auth-session-status class="mb-4" :status="session('status')" />
                         <!-- Validation Errors -->
