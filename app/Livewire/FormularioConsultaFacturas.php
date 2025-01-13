@@ -53,7 +53,11 @@ class FormularioConsultaFacturas extends Component
 
             $this->invoices = $this->cliente->pendingOrRejectedInvoices->map(function ($invoice) {
                 $invoiceClone = clone $invoice;
-                $invoiceClone->checked = true; // Nueva propiedad reactiva
+                if ($invoice->status === 'UNPAYMENT') {
+                    $invoiceClone->checked = true; // Nueva propiedad reactiva
+                }else{
+                    $invoiceClone->checked = false; // Nueva propiedad reactiva
+                }
                 return $invoiceClone;
             })->toArray();
 
