@@ -55,7 +55,7 @@ class FormularioConsultaFacturas extends Component
                 $invoiceClone = clone $invoice;
                 if ($invoice->status === 'UNPAYMENT') {
                     $invoiceClone->checked = true; // Nueva propiedad reactiva
-                }else{
+                } else {
                     $invoiceClone->checked = false; // Nueva propiedad reactiva
                 }
                 return $invoiceClone;
@@ -74,55 +74,67 @@ class FormularioConsultaFacturas extends Component
         // Validaciones
         $this->isSubmitting = true;
 
-        // Lógica del componente
-        $login = env("PLACE_TO_PAY_LOGIN");
-        $secretKey = env("PLACE_TO_PAY_SECRET_KEY");
-        $seed = Carbon::now()->toIso8601String(); //date('c');
-
-        $rawNonce = rand();
-        $tranKey = base64_encode(hash('sha256', $rawNonce . $seed . $secretKey, true));
-        $nonce = base64_encode($rawNonce);
-        $EXPIRATION_MINUTES_ADD = 30;
-
-        $headers = [
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json'
-        ];
-
-        $body = [
-            "locale" => "es_CO",
-            "auth" => [
-                "login" => $login,
-                "tranKey" => $tranKey,
-                "nonce" => $nonce,
-                "seed" => $seed,
-            ],
-            "payment" => [
-                "reference" => $this->invoice_reference,
-                "description" => $this->invoice_reference_description,
-                "amount" => [
-                    "currency" => env('PLACE_TO_PAY_MONEDA'),
-                    "total" => $this->total
-                ]
-            ],
-            "expiration" => Carbon::now()->addMinute($EXPIRATION_MINUTES_ADD)->toIso8601String(),
-            "returnUrl" => env('PLACE_TO_PAY_RETURNURL'),
-            "ipAddress" => $_SERVER['REMOTE_ADDR'],
-            "userAgent" => $_SERVER['HTTP_USER_AGENT']
-        ];
-
-        Log::build([
-            'driver' => 'single',
-            'path' => storage_path('logs/place-to-pay-requests.log'),
-        ])->info(json_encode([$body]));
-
-        // Inicializar el cliente HTTP Guzzle
-        $client = new Client([
-            'base_uri' => env("PLACE_TO_PAY_BASE_URL"),
-            'timeout'  => 10.0,
-        ]);
-
         try {
+            // Control de doble pago
+            $array_ids_invoices = array_filter(explode("-",  $this->invoice_reference));
+            foreach ($array_ids_invoices as $invoice_id) {
+                $invoice = Invoice::where('numeroFactura', $invoice_id)->where('status', 'PENDING')->first();
+                //dd($invoice);
+                if ($invoice) {
+                    $this->addError('valor', "En este momento su factura #".$invoice["numeroFactura"]." por el valor de ".$invoice["valor"]." se encuentra en un estado de PENDIENTE de no recibir confirmación por parte de su entidad financiera, por favor espere unos minutos y vuelva a consultar más tarde para verificar si su pago fue confirmado de forma exitosa. Si desea más información sobre el estado actual de su operación puede comunicarse a nuestras líneas de atención al cliente *000-00-00* o enviar un correo electrónico a email@email.com y preguntar por el estado de la transacción.");
+                    return;
+                }
+            }
+
+            // Lógica del componente
+            $login = env("PLACE_TO_PAY_LOGIN");
+            $secretKey = env("PLACE_TO_PAY_SECRET_KEY");
+            $seed = Carbon::now()->toIso8601String(); //date('c');
+
+            $rawNonce = rand();
+            $tranKey = base64_encode(hash('sha256', $rawNonce . $seed . $secretKey, true));
+            $nonce = base64_encode($rawNonce);
+            $EXPIRATION_MINUTES_ADD = 30;
+
+            $headers = [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json'
+            ];
+
+            $body = [
+                "locale" => "es_CO",
+                "auth" => [
+                    "login" => $login,
+                    "tranKey" => $tranKey,
+                    "nonce" => $nonce,
+                    "seed" => $seed,
+                ],
+                "payment" => [
+                    "reference" => $this->invoice_reference,
+                    "description" => $this->invoice_reference_description,
+                    "amount" => [
+                        "currency" => env('PLACE_TO_PAY_MONEDA'),
+                        "total" => $this->total
+                    ]
+                ],
+                "expiration" => Carbon::now()->addMinute($EXPIRATION_MINUTES_ADD)->toIso8601String(),
+                "returnUrl" => env('PLACE_TO_PAY_RETURNURL'),
+                "ipAddress" => $_SERVER['REMOTE_ADDR'],
+                "userAgent" => $_SERVER['HTTP_USER_AGENT']
+            ];
+
+            Log::build([
+                'driver' => 'single',
+                'path' => storage_path('logs/place-to-pay-requests.log'),
+            ])->info(json_encode([$body]));
+
+            // Inicializar el cliente HTTP Guzzle
+            $client = new Client([
+                'base_uri' => env("PLACE_TO_PAY_BASE_URL"),
+                'timeout'  => 10.0,
+            ]);
+
+
             $request = new Request('POST', 'https://checkout.test.goupagos.com.co/api/session', $headers, json_encode($body));
             $response = $client->send($request);
             $jsonResponse = json_decode($response->getBody(), true);
@@ -140,15 +152,13 @@ class FormularioConsultaFacturas extends Component
 
             return redirect()->to($jsonResponse['processUrl']);
         } catch (\Throwable $th) {
-            $this->addError('valor', 'No se pudo generar el pago, contacte a soporte. Code:'.$th->getMessage());
+            $this->addError('valor', 'No se pudo generar el pago, contacte a soporte. Code:' . $th->getMessage());
             Log::build([
                 'driver' => 'single',
                 'path' => storage_path('logs/errors-place-to-pay-requests.log'),
             ])->info(json_encode($th->getMessage()));
         } finally {
-
             $this->isSubmitting = false;
-
         }
     }
 
@@ -160,10 +170,10 @@ class FormularioConsultaFacturas extends Component
             ->reduce(function ($sum, $invoice) {
                 if (Carbon::now() <= $invoice['fechaLimitePago']) {
                     return $sum + $invoice['valor'];
-                }else {
+                } else {
                     return $sum + $invoice['valorVencido'];
                 }
-            }, 0); 
+            }, 0);
 
         $this->invoices_checked = collect($this->invoices)
             ->where('checked', true);

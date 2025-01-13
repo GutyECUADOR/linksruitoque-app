@@ -24,8 +24,6 @@
                         <!-- Validation Errors -->
                         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-
-
                         <div class="mt-8">
                             <!-- card -->
                             <div class="bg-white rounded-md-pill shadow rounded-3 mb-4">
@@ -102,6 +100,7 @@
                         <button
                             wire:click="submit_pagarFacturas()"
                             wire:loading.attr="disabled"
+                            {{ $isSubmitting === true ? 'disabled' : '' }}
                             {{ !$invoices_checked->isEmpty() ? '' : 'disabled' }}
                             class="btn btn-outline-primary me-2 mb-5">
 
@@ -115,12 +114,22 @@
                             </span>
                         </button>
 
+                        <!-- Flash messages -->
+                        <x-auth-session-status class="mb-4" :status="session('status')" />
+                        <!-- Validation Errors -->
+                        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+                        
                         @if (session('error'))
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 {{ session('error') }}
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         @endif
+
+                        <div>
+                            <label class="form-check-label text-center"><span>Al proceder con el pago aceptas los <a href="#" data-bs-toggle="modal" data-bs-target="#modalterminos">Términos y Condiciones.</a></span></label>
+                        </div>
+
                     </div>
                     <!-- row -->
                     @foreach ($invoices as $index => $invoice)
