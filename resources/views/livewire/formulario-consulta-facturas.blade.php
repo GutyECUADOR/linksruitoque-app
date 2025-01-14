@@ -13,12 +13,16 @@
                             <p class="lead text-center">Consulta aqui tus facturas pendientes, y realiza el pago de forma segura.</p>
                         </div>
 
+                        <noscript>
+                            <div style="background-color: #ffdddd; color: #d8000c; padding: 10px; text-align: center;">
+                                JavaScript está deshabilitado en tu navegador. Por favor, habilítalo para disfrutar de todas las funcionalidades del sitio.
+                            </div>
+                        </noscript>
+
                         <!-- Flash messages -->
                         <x-auth-session-status class="mb-4" :status="session('status')" />
                         <!-- Validation Errors -->
                         <x-auth-validation-errors class="mb-4" :errors="$errors" />
-
-
 
                         <div class="mt-8">
                             <!-- card -->
@@ -96,6 +100,7 @@
                         <button
                             wire:click="submit_pagarFacturas()"
                             wire:loading.attr="disabled"
+                            {{ $isSubmitting === true ? 'disabled' : '' }}
                             {{ !$invoices_checked->isEmpty() ? '' : 'disabled' }}
                             class="btn btn-outline-primary me-2 mb-5">
 
@@ -109,12 +114,22 @@
                             </span>
                         </button>
 
+                        <!-- Flash messages -->
+                        <x-auth-session-status class="mb-4" :status="session('status')" />
+                        <!-- Validation Errors -->
+                        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+                        
                         @if (session('error'))
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 {{ session('error') }}
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         @endif
+
+                        <div>
+                            <label class="form-check-label text-center"><span>Al proceder con el pago aceptas los <a href="#" data-bs-toggle="modal" data-bs-target="#modalterminos">Términos y Condiciones.</a></span></label>
+                        </div>
+
                     </div>
                     <!-- row -->
                     @foreach ($invoices as $index => $invoice)
@@ -131,7 +146,7 @@
                                                 <h3 class="mb-1 fs-4">
                                                     <span class="text-inherit">Factura #:{{ $invoice["numeroFactura"] }}</span>
                                                     <span class="badge {{ \Carbon\Carbon::parse($invoice['fechaLimitePago'])->isFuture() ? 'bg-success-soft' : 'bg-danger-soft' }} ms-2">
-                                                        Fecha limite: {{ $invoice['fechaLimitePago'] }}
+                                                        Fecha limite: {{ \Carbon\Carbon::parse($invoice['fechaLimitePago'])->subDays(1) }}
                                                     </span>
                                                 </h3>
 
@@ -139,8 +154,31 @@
                                                     <span>{{$invoice["referenciaPago"] }}</span>
                                                     <span class="ms-0"> - {{ $invoice["periodoCancelar"] }}</span>
                                                 </div>
-                                                <h2>$ {{ $invoice["valor"] }}</h2>
+                                                @if (\Carbon\Carbon::now() <= $invoice['fechaLimitePago'])
+                                                    <h2>$ {{ $invoice["valor"] }}</h2>
+                                                @else
+                                                    <h2>$ {{ $invoice["valorVencido"] }}</h2>
+                                                @endif
+
+                                                @if ($invoice['status'] === 'PENDING')
+                                                    <span class="badge bg-info-soft">
+                                                        Factura pendiente verificación de pago
+                                                    </span>
+                                                @elseif ($invoice['status'] === 'UNPAYMENT')
+                                                    <span class="badge bg-danger-soft">
+                                                        Factura pendiente de pago
+                                                    </span>
+                                                @elseif ($invoice['status'] === 'APPROVED')
+                                                    <span class="badge bg-primary-soft">
+                                                        Factura pagada
+                                                    </span>
+                                                @else
+                                                    Estado desconocido
+                                                @endif
+
                                             </div>
+
+                                            @if ($invoice['status'] === 'UNPAYMENT')
                                             <div>
                                                 <div class="form-check">
                                                     <label class="form-check-label">
@@ -154,6 +192,7 @@
                                                     </label>
                                                 </div>
                                             </div>
+                                            @endif
                                         </div>
 
 

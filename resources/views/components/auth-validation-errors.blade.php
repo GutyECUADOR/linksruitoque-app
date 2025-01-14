@@ -3,8 +3,6 @@
 @if ($errors->any())
 
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>{{ __('Whoops! Something went wrong.') }}</strong>: 
-
         <ul class="text-start">
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
