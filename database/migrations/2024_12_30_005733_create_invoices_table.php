@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('cliente_id');
             $table->foreign('cliente_id')->references('id')->on('clientes');
-            $table->string('numeroFactura');
+            $table->string('numeroFactura')->unique();
             $table->string('referenciaPago');
             $table->decimal('valor');
             $table->decimal('valorVencido');
