@@ -19,74 +19,27 @@
     <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon/favicon.ico">
 
 
-     <!-- Libs CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="{{ asset('assets/libs/magnific-popup/dist/magnific-popup.css')}}" rel="stylesheet" >
-    <link href="{{ asset('assets/fonts/feather/feather.css')}}" rel="stylesheet" >
-    <link href="{{ asset('assets/libs/bootstrap-icons/font/bootstrap-icons.css')}}" rel="stylesheet" >
-    <link href="{{ asset('assets/libs/@mdi/font/css/materialdesignicons.min.css')}}" rel="stylesheet" >
-    <link href="{{ asset('assets/libs/simplebar/dist/simplebar.min.css')}}" rel="stylesheet" >
+    <!-- Libs CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="{{ asset('assets/libs/magnific-popup/dist/magnific-popup.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/fonts/feather/feather.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/libs/bootstrap-icons/font/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/libs/@mdi/font/css/materialdesignicons.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/libs/simplebar/dist/simplebar.min.css') }}" rel="stylesheet">
 
 
     <!-- Theme CSS -->
-    <link href="{{ asset('assets/css/theme.min.css')}}" rel="stylesheet" >
+    <link href="{{ asset('assets/css/theme.min.css') }}" rel="stylesheet">
     <link href="../../assets/libs/tiny-slider/dist/tiny-slider.css" rel="stylesheet">
     <title>{{ config('app.name', 'App') }} </title>
 </head>
 
 <body class="bg-white">
     <!-- Page content -->
-    <!-- navbar login -->
-    <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid px-0">
-            <div class="d-flex">
-            <a class="navbar-brand" href="/">
-                <img style="max-width: 70px;" src="{{ asset('assets/images/brand/logo/logo.png')}}"
-                alt="Logo">
-            </a>
 
-            </div>
-            <div class="order-lg-3">
-                <div class="d-flex align-items-center">
-                    <a href="#"
-                        class="form-check form-switch theme-switch btn btn-light btn-icon rounded-circle me-2">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                        <label class="form-check-label" for="flexSwitchCheckDefault"></label>
-
-                    </a>
-                    <a href="{{ route('login') }}" style="margin-left: 10px;" class="btn btn-outline-primary me-2 ">{{ __('Login') }}</a>
-                    <a href="{{ route('register') }}" class="btn btn-primary d-none d-md-block">{{ __('Register') }}</a>
-                    <!-- Button -->
-                    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                        <span class="icon-bar top-bar mt-0"></span>
-                        <span class="icon-bar middle-bar"></span>
-                        <span class="icon-bar bottom-bar"></span>
-                    </button>
-                </div>
-
-            </div>
-
-            <!-- Collapse -->
-            <div class="collapse navbar-collapse" id="navbar-default">
-
-                <ul class="navbar-nav mx-auto">
-
-                    <li class="nav-item dropdown">
-                        <a href="{{ route('invoices.index') }}" class="nav-link">
-                            <i class="fa fa-credit-card" aria-hidden="true"></i>
-                            Pago de facturas
-                        </a>
-
-                    </li>
-
-                </ul>
-
-            </div>
-
-        </div>
-    </nav>
+    <x-navbar-quest></x-navbar-quest>
 
     <!-- section -->
     <main>
@@ -100,16 +53,19 @@
                         <div class="">
                             <!-- heading -->
                             <h5 class="text-dark mb-4"><i
-                                    class="fe fe-check icon-xxs icon-shape bg-light-success text-success rounded-circle me-2"></i>Planes y pagos 100% confiables</h5>
+                                    class="fe fe-check icon-xxs icon-shape bg-light-success text-success rounded-circle me-2"></i>Planes
+                                y pagos 100% confiables</h5>
                             <!-- heading -->
                             <h1 class="display-3 fw-bold mb-3">Planes de internet adaptados a tus necesidades</h1>
                             <!-- para -->
-                            <p class="pe-lg-10 mb-5">No te quedes fuera. Contrata uno de nuestros planes con un descuentro promocional por tiempo limitado.</p>
+                            <p class="pe-lg-10 mb-5">No te quedes fuera. Contrata uno de nuestros planes con un
+                                descuentro promocional por tiempo limitado.</p>
                             <!-- btn -->
                             <a href="#" class="btn btn-primary">Adquiere tu plan ahora</a>
                             <a href="https://www.youtube.com/watch?v=JRzWRZahOVU"
                                 class="popup-youtube fs-4 text-inherit ms-3"><img
-                                    src="../../assets/images/svg/play-btn.svg" alt="play" class="me-2">Video promocional</a>
+                                    src="../../assets/images/svg/play-btn.svg" alt="play" class="me-2">Video
+                                promocional</a>
 
 
                         </div>

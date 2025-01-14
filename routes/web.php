@@ -20,6 +20,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/faq', function () {
+    return view('faq');
+})->name('preguntas-frecuentes');
+
 Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
 Route::post('/invoices', [InvoiceController::class, 'consultar'])->name('invoices.consultar');
 Route::resource('/pagos', PagosController::class);
