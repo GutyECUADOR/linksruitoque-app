@@ -24,6 +24,10 @@ Route::get('/faq', function () {
     return view('faq');
 })->name('preguntas-frecuentes');
 
+Route::get('/return', function () {
+    return view('return');
+})->name('return-page');
+
 Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
 Route::post('/invoices', [InvoiceController::class, 'consultar'])->name('invoices.consultar');
 Route::resource('/pagos', PagosController::class);
