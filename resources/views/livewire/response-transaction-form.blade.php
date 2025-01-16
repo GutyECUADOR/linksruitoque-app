@@ -9,6 +9,8 @@
                     <label class="form-check-label text-center">
                         <span>Regresar a la página de inicio <a href="/">AQUI.</a></span></label>
                 </div>
+
+                <x-auth-validation-errors class="mb-4" :errors="$errors" />
             </div>
         </div>
         <!-- row -->

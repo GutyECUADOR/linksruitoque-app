@@ -135,7 +135,7 @@ class FormularioConsultaFacturas extends Component
             ]);
 
 
-            $request = new Request('POST', 'https://checkout.test.goupagos.com.co/api/session', $headers, json_encode($body));
+            $request = new Request('POST', env("PLACE_TO_PAY_BASE_URL").'/api/session', $headers, json_encode($body));
             $response = $client->send($request);
             $jsonResponse = json_decode($response->getBody(), true);
             Log::build([
@@ -149,6 +149,7 @@ class FormularioConsultaFacturas extends Component
                 $invoice->status = 'PENDING';
                 $invoice->save();
             }
+            $this->invoices = [];
 
             return redirect()->to($jsonResponse['processUrl']);
         } catch (\Throwable $th) {

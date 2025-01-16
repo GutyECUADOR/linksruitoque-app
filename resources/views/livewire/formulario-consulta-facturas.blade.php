@@ -96,7 +96,7 @@
                         <span class="text-uppercase text-primary fw-semibold ls-md"></span>
                         <!-- heading -->
                         <h2 class="h2 fw-bold mt-3">Lista de facturas pendientes</h2>
-                        <h3 class="h3">Total: $ {{ $total }}</h3>
+                        <h3 class="h3">Total: $ {{ $total }} {{ env('PLACE_TO_PAY_MONEDA') }}</h3>
                         <button
                             wire:click="submit_pagarFacturas()"
                             wire:loading.attr="disabled"
@@ -118,7 +118,7 @@
                         <x-auth-session-status class="mb-4" :status="session('status')" />
                         <!-- Validation Errors -->
                         <x-auth-validation-errors class="mb-4" :errors="$errors" />
-                        
+
                         @if (session('error'))
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 {{ session('error') }}

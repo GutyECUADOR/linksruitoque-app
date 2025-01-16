@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('request_information', function (Blueprint $table) {
             $table->id();
+            $table->string('requestId')->unique();
+            $table->string('referencia')->unique();
+            $table->string('status');
+            $table->dateTime('date');
+            $table->decimal('valorTotal');
+            $table->string('moneda');
             $table->timestamps();
         });
     }

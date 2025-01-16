@@ -50,7 +50,7 @@ class UserSeeder extends Seeder
             'numeroFactura' => '001',
             'referenciaPago' => 'pruebas',
             'valor' => 1000,
-            'valorVencido' => 12,
+            'valorVencido' => 1200,
             'periodoCancelar' => 'Del 20 de junio al 20 de agosto',
             'fechaLimitePago' => Carbon::now()->format('Y-m-d')
         ]);
@@ -60,7 +60,7 @@ class UserSeeder extends Seeder
             'numeroFactura' => '002',
             'referenciaPago' => 'pruebas',
             'valor' => 2000,
-            'valorVencido' => 22,
+            'valorVencido' => 2200,
             'periodoCancelar' => 'Del 20 de junio al 20 de agosto',
             'fechaLimitePago' => Carbon::now()->format('Y-m-d')
         ]);
@@ -70,7 +70,7 @@ class UserSeeder extends Seeder
             'numeroFactura' => '003',
             'referenciaPago' => 'pruebas',
             'valor' => 2500,
-            'valorVencido' => 25,
+            'valorVencido' => 2800,
             'periodoCancelar' => 'Del 20 de junio al 20 de agosto',
             'fechaLimitePago' => Carbon::now()->format('Y-m-d')
         ]);
