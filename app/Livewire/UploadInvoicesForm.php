@@ -23,6 +23,7 @@ class UploadInvoicesForm extends Component
     public function import()
     {
         $this->validate();
+        $this->count_invoices = 0;
 
         // Subir archivo temporalmente
         $filePath = $this->file->store('temp');
@@ -36,7 +37,6 @@ class UploadInvoicesForm extends Component
                 foreach ($data as $row) {
                     // Consultar cliente por DNI
                     $cliente = Cliente::where('numeroDocumentoIdentidad', $row[0])->first();
-                    $this->count_invoices = 0;
 
                     if ($cliente) {
                         // Crear la factura
