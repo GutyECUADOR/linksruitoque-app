@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Cliente;
 use App\Models\Invoice;
+use App\Models\RequestInformation;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
@@ -134,7 +135,6 @@ class FormularioConsultaFacturas extends Component
                 'timeout'  => 10.0,
             ]);
 
-
             $request = new Request('POST', env("PLACE_TO_PAY_BASE_URL").'/api/session', $headers, json_encode($body));
             $response = $client->send($request);
             $jsonResponse = json_decode($response->getBody(), true);
@@ -142,6 +142,12 @@ class FormularioConsultaFacturas extends Component
                 'driver' => 'single',
                 'path' => storage_path('logs/place-to-pay-requests.log'),
             ])->info(json_encode([$jsonResponse]));
+
+            /*Creación de Objeto RequestInformation para consulta de status posterior al redireccionamiento */
+            $requestInformation = new RequestInformation();
+            $requestInformation->requestId =  $jsonResponse["requestId"];
+            $requestInformation->referencia = $this->invoice_reference;
+            $requestInformation->save();
 
             /* TODO REGISTRO DE REQUEST ID con la referencia de factura */
             foreach ($this->invoices_checked as $invoice) {

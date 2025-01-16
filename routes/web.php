@@ -24,7 +24,7 @@ Route::get('/faq', function () {
     return view('faq');
 })->name('preguntas-frecuentes');
 
-Route::get('/return/{reference}', function () {
+Route::get('/return/{referencia}', function () {
     return view('return');
 })->name('return-page');
 

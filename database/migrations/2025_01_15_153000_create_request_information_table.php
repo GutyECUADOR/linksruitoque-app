@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('requestId')->unique();
             $table->string('referencia')->unique();
-            $table->string('status');
-            $table->dateTime('date');
-            $table->decimal('valorTotal');
-            $table->string('moneda');
+            $table->string('status')->nullable();
+            $table->dateTime('date')->nullable();
+            $table->decimal('valorTotal')->nullable();
+            $table->string('moneda')->nullable();
             $table->timestamps();
         });
     }

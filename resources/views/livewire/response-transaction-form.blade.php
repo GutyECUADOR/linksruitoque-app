@@ -4,7 +4,7 @@
             <div class="col-lg-6 col-md-12 col-12 text-center">
                 <!-- caption -->
                 <span class="text-primary mb-3 d-block text-uppercase fw-semibold ls-xl">Transación Finalizada</span>
-                <h2 class="mb-2 display-4 fw-bold ">Gracias por tu pago.</h2>
+                <h2 class="mb-2 display-4 fw-bold ">{{ $requestInformation->StatusMessage }}</h2>
                 <div>
                     <label class="form-check-label text-center">
                         <span>Regresar a la página de inicio <a href="/">AQUI.</a></span></label>
@@ -14,31 +14,36 @@
             </div>
         </div>
         <!-- row -->
-        <div class="row justify-content-center ">
-            <div class="col-lg-6 col-md-6 col-12">
-                <!-- Card -->
-                <div class="card">
-                    <!-- Card Body -->
-                    <div class="card-body">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Información</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Mark</td>
+        @if ($requestInformation)
+            <div class="row justify-content-center ">
+                <div class="col-lg-6 col-md-6 col-12">
+                    <!-- Card -->
+                    <div class="card">
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Información</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($requestInformation->toArray() as $key => $value)
+                                        @if (!in_array($key, ['created_at', 'updated_at']))
+                                            <tr>
+                                                <td>{{ $key }}</td>
+                                                <td>{{ $value }}</td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
 
-                                </tr>
-
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endif
     </div>
 </section>
