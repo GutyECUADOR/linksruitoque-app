@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('request_information', function (Blueprint $table) {
             $table->id();
-            $table->string('requestId')->unique();
-            $table->string('referencia')->unique();
+            $table->string('requestId');
+            $table->string('referencia');
             $table->string('status')->nullable();
             $table->dateTime('date')->nullable();
             $table->decimal('valorTotal')->nullable();

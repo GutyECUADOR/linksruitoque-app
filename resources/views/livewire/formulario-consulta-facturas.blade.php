@@ -172,13 +172,17 @@
                                                     <span class="badge bg-primary-soft">
                                                         Factura pagada
                                                     </span>
+                                                @elseif ($invoice['status'] === 'REJECTED')
+                                                    <span class="badge bg-warning-soft">
+                                                        Factura pendiente de pago, pago rechazado
+                                                    </span>
                                                 @else
                                                     Estado desconocido
                                                 @endif
 
                                             </div>
 
-                                            @if ($invoice['status'] === 'UNPAYMENT')
+                                            @if ($invoice['status'] === 'UNPAYMENT' || $invoice['status'] === 'REJECTED' )
                                             <div>
                                                 <div class="form-check">
                                                     <label class="form-check-label">

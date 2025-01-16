@@ -26,6 +26,6 @@ class Cliente extends Model
 
     public function pendingOrRejectedInvoices(): HasMany
     {
-        return $this->hasMany(Invoice::class)->whereIn('status', ['PENDING', 'UNPAYMENT']);
+        return $this->hasMany(Invoice::class)->whereIn('status', ['PENDING', 'UNPAYMENT','REJECTED']);
     }
 }

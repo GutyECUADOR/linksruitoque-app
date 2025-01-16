@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Invoice;
 use App\Models\RequestInformation;
 use Carbon\Carbon;
 use Livewire\Component;
@@ -19,7 +20,12 @@ class ResponseTransactionForm extends Component
     public function mount(Request $request)
     {
         $referencia = $request->route('referencia'); // Obtiene el parámetro {referencia} desde la URL de retorno
-        $this->requestInformation = RequestInformation::where('referencia', $referencia)->first();
+        $this->requestInformation = RequestInformation::where('referencia', $referencia)->latest()->first();
+
+        if (!$this->requestInformation) {
+            return redirect()->to('/');
+        }
+
         $requestId = $this->requestInformation->requestId;
 
         if (is_null($this->requestInformation["status"])) { /* Evitar doble peticion al endpoint de placetopay */
@@ -57,7 +63,6 @@ class ResponseTransactionForm extends Component
                 $response = $client->send($request);
                 $jsonResponse = json_decode($response->getBody(), true);
 
-                //dd($jsonResponse);
                 $this->requestInformation->requestId = $jsonResponse["requestId"];
                 $this->requestInformation->referencia = $jsonResponse["request"]["payment"]["reference"];
                 $this->requestInformation->status = $jsonResponse["status"]["status"];
@@ -65,6 +70,13 @@ class ResponseTransactionForm extends Component
                 $this->requestInformation->valorTotal = $jsonResponse["request"]["payment"]["amount"]["total"];
                 $this->requestInformation->moneda = $jsonResponse["request"]["payment"]["amount"]["currency"];
                 $this->requestInformation->save();
+
+                $array_ids_invoices = array_filter(explode("-", $this->requestInformation->referencia));
+                foreach ($array_ids_invoices as $invoice_id) {
+                    $invoice = Invoice::where('numeroFactura', $invoice_id)->first();
+                    $invoice->status = $this->requestInformation->status;
+                    $invoice->save();
+                }
 
             } catch (\Throwable $th) {
                 //dd(json_decode($response->getBody(), true));
@@ -75,8 +87,6 @@ class ResponseTransactionForm extends Component
                 ])->info(json_encode($th->getMessage()));
             }
         }
-
-
     }
 
     public function render()
