@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('request_information', function (Blueprint $table) {
             $table->id();
-            $table->string('requestId');
+            $table->string('requestId')->unique();
             $table->string('referencia');
             $table->string('status')->nullable();
             $table->dateTime('date')->nullable();
