@@ -118,7 +118,7 @@ class FormularioConsultaFacturas extends Component
                     ]
                 ],
                 "expiration" => Carbon::now()->addMinute($EXPIRATION_MINUTES_ADD)->toIso8601String(),
-                "returnUrl" => env('PLACE_TO_PAY_RETURNURL'),
+                "returnUrl" => env('PLACE_TO_PAY_RETURNURL').'/'.$this->invoice_reference,
                 "ipAddress" => $_SERVER['REMOTE_ADDR'],
                 "userAgent" => $_SERVER['HTTP_USER_AGENT']
             ];
@@ -143,7 +143,7 @@ class FormularioConsultaFacturas extends Component
                 'path' => storage_path('logs/place-to-pay-requests.log'),
             ])->info(json_encode([$jsonResponse]));
 
-            /*TODO ESTABLECER EL STATUS DE LAS FACTURAS COMO PENDIENTE*/
+            /* TODO REGISTRO DE REQUEST ID con la referencia de factura */
             foreach ($this->invoices_checked as $invoice) {
                 $invoice = Invoice::where('numeroFactura', $invoice["numeroFactura"])->first();
                 $invoice->status = 'PENDING';
