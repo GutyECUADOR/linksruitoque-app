@@ -75,6 +75,15 @@ class UserSeeder extends Seeder
             'fechaLimitePago' => Carbon::now()->format('Y-m-d')
         ]);
 
+        Invoice::create([
+            'cliente_id' => $cliente->id,
+            'numeroFactura' => '004',
+            'referenciaPago' => 'pruebas',
+            'valor' => 4000,
+            'valorVencido' => 4200,
+            'periodoCancelar' => 'Del 20 de junio al 20 de agosto',
+            'fechaLimitePago' => Carbon::now()->format('Y-m-d')
+        ]);
 
 
 
