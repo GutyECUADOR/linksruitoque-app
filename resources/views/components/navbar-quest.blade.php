@@ -59,7 +59,7 @@
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a href="{{ route('preguntas-frecuentes') }}" class="nav-link">
+                        <a href="{{ asset('assets/docs/Terminos_y_condiciones_portal.pdf') }}" class="nav-link">
                             <i class="fa fa-handshake" aria-hidden="true"></i>
                             Términos y Condiciones
                         </a>
