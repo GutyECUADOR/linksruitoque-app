@@ -95,7 +95,7 @@ class FormularioConsultaFacturas extends Component
             $rawNonce = rand();
             $tranKey = base64_encode(hash('sha256', $rawNonce . $seed . $secretKey, true));
             $nonce = base64_encode($rawNonce);
-            $EXPIRATION_MINUTES_ADD = 5;
+            $EXPIRATION_MINUTES_ADD = 15;
 
             $headers = [
                 'Content-Type' => 'application/json',

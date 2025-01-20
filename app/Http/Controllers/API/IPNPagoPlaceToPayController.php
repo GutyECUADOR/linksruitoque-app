@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
+use App\Models\RequestInformation;
 use Illuminate\Http\Request;
 
 class IPNPagoPlaceToPayController extends Controller
@@ -46,6 +47,10 @@ class IPNPagoPlaceToPayController extends Controller
                 $invoice = Invoice::where('numeroFactura', $invoice_id)->first();
                 $invoice->status = $status;
                 $invoice->save();
+                
+                $requestInformation = RequestInformation::where('requestId', $IPN_invoice["requestId"])->first();
+                $requestInformation->status = $status;
+                $requestInformation->save();
             }
 
             return response()->json([
