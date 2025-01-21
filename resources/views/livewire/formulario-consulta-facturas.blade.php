@@ -98,10 +98,9 @@
                         <h2 class="h2 fw-bold mt-3">Lista de facturas pendientes</h2>
                         <h3 class="h3">Total: $ {{ $total }} {{ env('PLACE_TO_PAY_MONEDA') }}</h3>
                         <button
-                            wire:click="submit_pagarFacturas()"
-                            wire:loading.attr="disabled"
-                            {{ $isSubmitting === true ? 'disabled' : '' }}
-                            {{ !$invoices_checked->isEmpty() ? '' : 'disabled' }}
+                            wire:click="submit_pagarFacturas"
+                            onclick="this.disabled=true"
+                            {{ $invoices_checked->isEmpty() ? 'disabled' : '' }}
                             class="btn btn-outline-primary me-2 mb-5">
 
                             <span wire:loading.remove>
