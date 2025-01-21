@@ -82,7 +82,7 @@ class FormularioConsultaFacturas extends Component
                 $invoice = Invoice::where('numeroFactura', $invoice_id)->where('status', 'PENDING')->first();
                 //dd($invoice);
                 if ($invoice) {
-                    $this->addError('valor', "En este momento su factura #".$invoice["numeroFactura"]." por el valor de ".$invoice["valor"]." se encuentra en un estado de PENDIENTE de no recibir confirmación por parte de su entidad financiera, por favor espere unos minutos y vuelva a consultar más tarde para verificar si su pago fue confirmado de forma exitosa. Si desea más información sobre el estado actual de su operación puede comunicarse a nuestras líneas de atención al cliente *000-00-00* o enviar un correo electrónico a email@email.com y preguntar por el estado de la transacción.");
+                    $this->addError('valor', "En este momento su factura #".$invoice["numeroFactura"]." por el valor de ".$invoice["valor"]." se encuentra en un estado de PENDIENTE de no recibir confirmación por parte de su entidad financiera, por favor espere unos minutos y vuelva a consultar más tarde para verificar si su pago fue confirmado de forma exitosa. Si desea más información sobre el estado actual de su operación puede comunicarse a nuestras líneas de atención al cliente +57302 8623272 o enviar un correo electrónico a facturas@linkruitoque.com y preguntar por el estado de la transacción.");
                     return;
                 }
             }
