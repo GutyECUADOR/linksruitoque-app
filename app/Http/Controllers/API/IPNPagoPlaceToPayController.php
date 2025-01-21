@@ -44,11 +44,11 @@ class IPNPagoPlaceToPayController extends Controller
             $reference_id_invoices = $IPN_invoice["reference"];
             $array_ids_invoices = array_filter(explode("-", $reference_id_invoices));
             foreach ($array_ids_invoices as $invoice_id) {
-                $invoice = Invoice::where('numeroFactura', $invoice_id)->first();
+                $invoice = Invoice::where('numeroFactura', $invoice_id)->firstOrFail();
                 $invoice->status = $status;
                 $invoice->save();
                 
-                $requestInformation = RequestInformation::where('requestId', $IPN_invoice["requestId"])->first();
+                $requestInformation = RequestInformation::where('requestId', $IPN_invoice["requestId"])->firstOrFail();
                 $requestInformation->status = $status;
                 $requestInformation->save();
             }
