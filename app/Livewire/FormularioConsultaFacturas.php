@@ -164,8 +164,6 @@ class FormularioConsultaFacturas extends Component
                 'driver' => 'single',
                 'path' => storage_path('logs/errors-place-to-pay-requests.log'),
             ])->info(json_encode($th->getMessage()));
-        } finally {
-            $this->isSubmitting = false;
         }
     }
 

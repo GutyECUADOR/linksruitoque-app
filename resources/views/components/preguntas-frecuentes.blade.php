@@ -137,8 +137,7 @@
                         <div class="py-3 fs-4">
                             En primera instancia, revisar si llegó un email de confirmación de la transacción a la
                             cuenta de correo electrónico inscrita en el momento de realizar el pago, en caso de no
-                            haberlo recibido, deberás contactar a (PERSONA RESPONSABLE AL INTERIOR DEL
-                            COMERCIO) para confirmar el estado de la transacción.
+                            haberlo recibido, deberás contactar a ESMERALDA JAIMES ESPINEL para confirmar el estado de la transacción.
                         </div>
                     </div>
                      <!-- Card  -->
@@ -163,15 +162,13 @@
                             Por cada transacción aprobada a través de GOU Pagos, recibirás un comprobante del
                             pago con la referencia de compra en la dirección de correo electrónico que indicaste al
                             momento de pagar.
-                            Si no lo recibes, podrás contactar a (PERSONA RESPONSABLE AL INTERIOR DEL
-                            COMERCIO) o a la línea (teléfono del comercio) o al correo electrónico
-                            comercio@comercio.com, para solicitar el reenvío del comprobante a la misma dirección de correo electrónico registrada al momento de pagar.
+                            Si no lo recibes, podrás contactar a ESMERALDA JAIMES ESPINEL o a la línea (+57) 302 8623272 o al correo electrónico
+                            facturas@linkruitoque.com, para solicitar el reenvío del comprobante a la misma dirección de correo electrónico registrada al momento de pagar.
                         </div>
                     </div>
                 </div>
                 <div class="mt-10 text-center">
-                    <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal"
-                        data-bs-target="#modalterminos">Más preguntas? Revisa nuestros terminos y condiciones</a>
+                    <a href="{{ asset('assets/docs/Terminos_y_condiciones_portal.pdf') }}" target="_blank" class="btn btn-outline-primary">Más preguntas? Revisa nuestros terminos y condiciones</a>
                 </div>
             </div>
         </div>

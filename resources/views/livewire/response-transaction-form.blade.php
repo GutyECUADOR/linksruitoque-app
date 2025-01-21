@@ -30,7 +30,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($requestInformation->toArray() as $key => $value)
-                                        @if (!in_array($key, ['created_at', 'updated_at']))
+                                        @if (!in_array($key, ['created_at', 'updated_at', 'requestId']))
                                             <tr>
                                                 <td>{{ $key }}</td>
                                                 <td>{{ $value }}</td>

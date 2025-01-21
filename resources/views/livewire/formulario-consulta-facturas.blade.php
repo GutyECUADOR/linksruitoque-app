@@ -127,7 +127,7 @@
                         @endif
 
                         <div>
-                            <label class="form-check-label text-center"><span>Al proceder con el pago aceptas los <a href="#" data-bs-toggle="modal" data-bs-target="#modalterminos">Términos y Condiciones.</a></span></label>
+                            <label class="form-check-label text-center"><span>Al proceder con el pago aceptas los <a href="{{ asset('assets/docs/Terminos_y_condiciones_portal.pdf') }}" target="_blank" >Términos y Condiciones.</a></span></label>
                         </div>
 
                     </div>
