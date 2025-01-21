@@ -70,7 +70,11 @@ class CheckStatusInvoices extends Command
                 $jsonResponse = json_decode($response->getBody(), true);
 
                 $requestInformation->status = $jsonResponse["status"]["status"];
-                $requestInformation->date = $jsonResponse["status"]["date"];
+
+                $datetime = new \DateTime($jsonResponse["status"]["date"]);
+                $formattedDate = $datetime->format('Y-m-d H:i:s');
+
+                $requestInformation->date = $formattedDate;
                 $requestInformation->valorTotal = $jsonResponse["request"]["payment"]["amount"]["total"];
                 $requestInformation->moneda = $jsonResponse["request"]["payment"]["amount"]["currency"];
                 $requestInformation->save();

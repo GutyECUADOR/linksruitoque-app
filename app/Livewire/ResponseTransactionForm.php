@@ -66,7 +66,11 @@ class ResponseTransactionForm extends Component
                 $this->requestInformation->requestId = $jsonResponse["requestId"];
                 $this->requestInformation->referencia = $jsonResponse["request"]["payment"]["reference"];
                 $this->requestInformation->status = $jsonResponse["status"]["status"];
-                $this->requestInformation->date = $jsonResponse["status"]["date"];
+
+                $datetime = new \DateTime($jsonResponse["status"]["date"]);
+                $formattedDate = $datetime->format('Y-m-d H:i:s');
+
+                $this->requestInformation->date = $formattedDate;
                 $this->requestInformation->valorTotal = $jsonResponse["request"]["payment"]["amount"]["total"];
                 $this->requestInformation->moneda = $jsonResponse["request"]["payment"]["amount"]["currency"];
                 $this->requestInformation->save();
