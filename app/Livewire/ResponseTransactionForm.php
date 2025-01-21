@@ -78,8 +78,12 @@ class ResponseTransactionForm extends Component
                     $invoice->save();
                 }
 
+                Log::build([
+                    'driver' => 'single',
+                    'path' => storage_path('logs/success-place-to-pay-requestsInformation.log'),
+                ])->info(json_encode($this->requestInformation));
+
             } catch (\Throwable $th) {
-                //dd(json_decode($response->getBody(), true));
                 $this->addError('valor', 'No se pudo obtener la información de la transacción, contacte a soporte. Code:' . $th->getMessage());
                 Log::build([
                     'driver' => 'single',
