@@ -62,6 +62,7 @@ class CheckStatusInvoices extends Command
                 $client = new Client([
                     'base_uri' => env("PLACE_TO_PAY_BASE_URL"),
                     'timeout'  => 10.0,
+                    'verify' => false, // Desactiva la verificación SSL
                 ]);
 
                 $request = new GuzzleRequest('POST', env("PLACE_TO_PAY_BASE_URL") . '/api/session/' . $requestInformation->requestId, $headers, json_encode($body));
@@ -83,7 +84,7 @@ class CheckStatusInvoices extends Command
 
                 Log::build([
                     'driver' => 'single',
-                    'path' => storage_path('success-place-to-pay-requestsInformation.log'),
+                    'path' => storage_path('logs/success-place-to-pay-requestsInformation.log'),
                 ])->info(json_encode($requestInformation));
 
             } catch (\Throwable $th) {
