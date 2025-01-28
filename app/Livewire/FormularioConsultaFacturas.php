@@ -176,7 +176,6 @@ class FormularioConsultaFacturas extends Component
                 // Convertir fecha límite de pago a formato sin hora
                 $fechaLimitePago = Carbon::parse($invoice['fechaLimitePago'])->toDateString();
                 $hoy = Carbon::now()->toDateString(); // También considerar solo la fecha actual
-                dd($fechaLimitePago, $hoy);
 
                 if ($hoy <= $fechaLimitePago) {
                     return $sum + $invoice['valor'];
