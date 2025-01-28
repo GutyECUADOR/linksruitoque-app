@@ -28,7 +28,7 @@ class ResponseTransactionForm extends Component
 
         $requestId = $this->requestInformation->requestId;
 
-        if (is_null($this->requestInformation["status"])) { /* Evitar doble peticion al endpoint de placetopay */
+        if (is_null($this->requestInformation["status"]) || is_null($this->requestInformation["date"]) || is_null($this->requestInformation["valorTotal"]) || is_null($this->requestInformation["moneda"])) { /* Evitar doble peticion al endpoint de placetopay */
             # Peticion al API RequestInformation
             $login = env("PLACE_TO_PAY_LOGIN");
             $secretKey = env("PLACE_TO_PAY_SECRET_KEY");

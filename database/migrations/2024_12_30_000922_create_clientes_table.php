@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('numeroDocumentoIdentidad');
             $table->string('nombre');
             $table->string('telefonoContacto');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('direccionCorrespondencia');
             $table->timestamps();
         });
