@@ -144,8 +144,8 @@
                                                 <!-- heading -->
                                                 <h3 class="mb-1 fs-4">
                                                     <span class="text-inherit">Factura #:{{ $invoice["numeroFactura"] }}</span>
-                                                    <span class="badge {{ \Carbon\Carbon::parse($invoice['fechaLimitePago'])->isFuture() ? 'bg-success-soft' : 'bg-danger-soft' }} ms-2">
-                                                        Fecha limite: {{ \Carbon\Carbon::parse($invoice['fechaLimitePago'])->subDays(1) }}
+                                                    <span class="badge {{  \Carbon\Carbon::now()->toDateString() <= \Carbon\Carbon::parse($invoice['fechaLimitePago'])->toDateString() ? 'bg-success-soft' : 'bg-danger-soft' }} ms-2">
+                                                        Fecha limite: {{ \Carbon\Carbon::parse($invoice['fechaLimitePago'])->toDateString() }}
                                                     </span>
                                                 </h3>
 

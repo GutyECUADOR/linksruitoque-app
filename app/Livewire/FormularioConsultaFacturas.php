@@ -82,7 +82,7 @@ class FormularioConsultaFacturas extends Component
                 $invoice = Invoice::where('numeroFactura', $invoice_id)->where('status', 'PENDING')->first();
                 //dd($invoice);
                 if ($invoice) {
-                    $this->addError('valor', "En este momento su factura #".$invoice["numeroFactura"]." por el valor de ".$invoice["valor"]." se encuentra en un estado de PENDIENTE de no recibir confirmación por parte de su entidad financiera, por favor espere unos minutos y vuelva a consultar más tarde para verificar si su pago fue confirmado de forma exitosa. Si desea más información sobre el estado actual de su operación puede comunicarse a nuestras líneas de atención al cliente +57302 8623272 o enviar un correo electrónico a facturas@linkruitoque.com y preguntar por el estado de la transacción.");
+                    $this->addError('valor', "En este momento su factura #" . $invoice["numeroFactura"] . " por el valor de " . $invoice["valor"] . " se encuentra en un estado de PENDIENTE de no recibir confirmación por parte de su entidad financiera, por favor espere unos minutos y vuelva a consultar más tarde para verificar si su pago fue confirmado de forma exitosa. Si desea más información sobre el estado actual de su operación puede comunicarse a nuestras líneas de atención al cliente +57302 8623272 o enviar un correo electrónico a facturas@linkruitoque.com y preguntar por el estado de la transacción.");
                     return;
                 }
             }
@@ -119,7 +119,7 @@ class FormularioConsultaFacturas extends Component
                     ]
                 ],
                 "expiration" => Carbon::now()->addMinute($EXPIRATION_MINUTES_ADD)->toIso8601String(),
-                "returnUrl" => env('PLACE_TO_PAY_RETURNURL').'/'.$this->invoice_reference,
+                "returnUrl" => env('PLACE_TO_PAY_RETURNURL') . '/' . $this->invoice_reference,
                 "ipAddress" => $_SERVER['REMOTE_ADDR'],
                 "userAgent" => $_SERVER['HTTP_USER_AGENT']
             ];
@@ -135,7 +135,7 @@ class FormularioConsultaFacturas extends Component
                 'timeout'  => 10.0,
             ]);
 
-            $request = new Request('POST', env("PLACE_TO_PAY_BASE_URL").'/api/session', $headers, json_encode($body));
+            $request = new Request('POST', env("PLACE_TO_PAY_BASE_URL") . '/api/session', $headers, json_encode($body));
             $response = $client->send($request);
             $jsonResponse = json_decode($response->getBody(), true);
             Log::build([
@@ -173,7 +173,12 @@ class FormularioConsultaFacturas extends Component
             ->where('checked', true) // Filtrar facturas seleccionadas
             //->sum('valor'); // Sumar los valores seleccionados
             ->reduce(function ($sum, $invoice) {
-                if (Carbon::now() <= $invoice['fechaLimitePago']) {
+                // Convertir fecha límite de pago a formato sin hora
+                $fechaLimitePago = Carbon::parse($invoice['fechaLimitePago'])->toDateString();
+                $hoy = Carbon::now()->toDateString(); // También considerar solo la fecha actual
+                dd($fechaLimitePago, $hoy);
+
+                if ($hoy <= $fechaLimitePago) {
                     return $sum + $invoice['valor'];
                 } else {
                     return $sum + $invoice['valorVencido'];

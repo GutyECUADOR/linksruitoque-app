@@ -10,13 +10,18 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \App\Console\Commands\CheckStatusInvoices::class,
     ];
+
+    protected function scheduleTimezone()
+    {
+        return 'America/Lima';
+    }
     /**
      * Define the application's command schedule.
      */
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('app:check-status-invoices')->everyFiveMinutes(); // Ajusta la frecuencia según tus necesidades
+        $schedule->command('app:check-status-invoices')->everyMinute(); // Ajusta la frecuencia según tus necesidades
     }
 
     /**
