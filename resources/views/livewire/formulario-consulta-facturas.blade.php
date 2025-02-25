@@ -153,7 +153,7 @@
                                                     <span>{{$invoice["referenciaPago"] }}</span>
                                                     <span class="ms-0"> - {{ $invoice["periodoCancelar"] }}</span>
                                                 </div>
-                                                @if (\Carbon\Carbon::now() <= $invoice['fechaLimitePago'])
+                                                @if (\Carbon\Carbon::now()->toDateString() <= \Carbon\Carbon::parse($invoice['fechaLimitePago'])->toDateString())
                                                     <h2>$ {{ $invoice["valor"] }}</h2>
                                                 @else
                                                     <h2>$ {{ $invoice["valorVencido"] }}</h2>
