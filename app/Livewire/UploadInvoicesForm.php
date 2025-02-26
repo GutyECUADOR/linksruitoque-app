@@ -9,6 +9,7 @@ use App\Models\Cliente;
 use App\Models\Invoice;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class UploadInvoicesForm extends Component
 {
@@ -91,8 +92,21 @@ class UploadInvoicesForm extends Component
 
             unlink($absolutePath); // Eliminar archivo temporal
             session()->flash('message', $this->count_invoices . ' facturas importadas exitosamente.');
+            // Reset the file input
+            $this->reset('file');
+
         } catch (\Throwable $th) {
-            $this->addError('file', $th->getMessage());
+            $this->reset('file');
+            Log::build([
+                'driver' => 'single',
+                'path' => storage_path('logs/upload-invoices.log'),
+            ])->info(json_encode($th->getMessage()));
+
+            if ($th->errorInfo[1] == 1062) { // Código de error 1062 = Duplicado
+                $this->addError('file', 'Se está intentando cargar una factura duplicada');
+            }else{
+                $this->addError('file', $th->getMessage());
+            }
         }
     }
 

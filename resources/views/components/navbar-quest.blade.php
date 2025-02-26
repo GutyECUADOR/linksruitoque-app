@@ -15,8 +15,7 @@
                         <label class="form-check-label" for="flexSwitchCheckDefault"></label>
 
                     </a>
-                    <a href="{{ route('login') }}" style="margin-left: 10px;" class="btn btn-outline-primary me-2 ">{{ __('Login') }}</a>
-                    <a href="{{ route('register') }}" class="btn btn-primary d-none d-md-block">{{ __('Register') }}</a>
+
                     <!-- Button -->
                     <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false"
