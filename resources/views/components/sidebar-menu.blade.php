@@ -13,6 +13,11 @@
                     <i class="nav-icon fe fe-home me-2"></i> Inicio
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('anulacion-facturas') }}">
+                    <i class="nav-icon fe fe-file me-2"></i> Anulación de Facturas
+                </a>
+            </li>
         </ul>
 
     </div>
