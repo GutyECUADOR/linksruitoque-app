@@ -116,4 +116,5 @@
 
 </body>
 
+    <script src="{{ asset('assets/js/custom.js') }}?<?php echo date('Ymdhiiss')?>"></script>
 </html>
